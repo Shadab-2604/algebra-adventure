@@ -513,6 +513,30 @@
             .options { grid-template-columns: 1fr; }
             .lesson-text { font-size: 1.1em; }
         }
+
+
+        .home-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: #4B8DF8;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.home-btn:hover {
+    background: #3B7DE8;
+    transform: scale(1.05);
+}
+
     </style>
 </head>
 <body>
@@ -520,6 +544,8 @@
     
     <div class="container">
         <button class="sound-toggle" id="soundToggle" onclick="toggleSound()">🔊</button>
+        <button class="home-btn" onclick="window.location.href='index.html'">🏠 Back to Home</button>
+
 
         <!-- Home Screen -->
         <div class="screen active" id="homeScreen">
