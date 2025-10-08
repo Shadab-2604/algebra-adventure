@@ -1,6 +1,3 @@
-# Algebra Adventure — README.md
-
-```markdown
 # 🧮 Algebra Adventure
 
 **Algebra Adventure** is a single-file, kid-friendly web game built with plain **HTML**, **CSS**, and **JavaScript**.  
@@ -23,7 +20,6 @@ Open `index.html` in any modern browser (Chrome, Edge, Firefox, Safari) to play 
 ---
 
 ## 🗂️ Project Structure
-```
 
 algebra-adventure/
 ├─ index.html        # Single-file app (HTML + CSS + JS)
