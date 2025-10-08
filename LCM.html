@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LCM Adventure 🎯</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial', sans-serif;
+            background: linear-gradient(to top, #87CEEB, #E0F2FE);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #1E293B;
+            padding: 20px;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1100px;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .home-screen {
+            text-align: center;
+        }
+
+        .home-screen h1 {
+            font-size: 3em;
+            color: #4B8DF8;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #64748B;
+            margin-bottom: 40px;
+        }
+
+        .mode-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .mode-btn {
+            background: #4B8DF8;
+            color: white;
+            border: none;
+            padding: 30px 50px;
+            font-size: 1.5em;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(75, 141, 248, 0.4);
+            font-weight: bold;
+        }
+
+        .mode-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(75, 141, 248, 0.6);
+        }
+
+        .mode-btn.learn { background: #34D399; box-shadow: 0 8px 20px rgba(52, 211, 153, 0.4); }
+        .mode-btn.learn:hover { background: #24C389; }
+        
+        .mode-btn.practice { background: #FBBF24; color: #1E293B; box-shadow: 0 8px 20px rgba(251, 191, 36, 0.4); }
+        .mode-btn.practice:hover { background: #EBAF14; }
+        
+        .mode-btn.test { background: #F87171; box-shadow: 0 8px 20px rgba(248, 113, 113, 0.4); }
+        .mode-btn.test:hover { background: #E86161; }
+
+        .character {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 30px;
+        }
+
+        .robot {
+            font-size: 120px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #E0F2FE;
+        }
+
+        .back-btn {
+            background: #64748B;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #475569;
+            transform: scale(1.05);
+        }
+
+        .score-display {
+            background: #FBBF24;
+            padding: 12px 25px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #1E293B;
+        }
+
+        .learn-content {
+            text-align: center;
+        }
+
+        .lesson {
+            margin: 30px 0;
+            padding: 30px;
+            background: #F0F9FF;
+            border-radius: 20px;
+            border: 3px solid #4B8DF8;
+        }
+
+        .lesson h2 {
+            color: #4B8DF8;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .lesson-text {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #334155;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .example-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px auto;
+            max-width: 700px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .visual-items {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .number-box {
+            background: linear-gradient(135deg, #4B8DF8, #3B7DE8);
+            padding: 15px 25px;
+            border-radius: 15px;
+            color: white;
+            font-size: 1.8em;
+            font-weight: bold;
+            margin: 5px;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .multiples-container {
+            margin: 30px 0;
+        }
+
+        .multiples-row {
+            margin: 20px 0;
+        }
+
+        .multiples-row h4 {
+            color: #4B8DF8;
+            margin-bottom: 10px;
+        }
+
+        .multiples-grid {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .multiple-item {
+            background: #E0F2FE;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: 2px solid #4B8DF8;
+            transition: all 0.3s ease;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .multiple-item.common {
+            background: #34D399;
+            color: white;
+            border-color: #34D399;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .speech-bubble {
+            background: #34D399;
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            margin: 20px auto;
+            max-width: 650px;
+            font-size: 1.2em;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .nav-btn {
+            background: #4B8DF8;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: #3B7DE8;
+            transform: scale(1.05);
+        }
+
+        .nav-btn:disabled {
+            background: #94A3B8;
+            cursor: not-allowed;
+            transform: scale(1);
+        }
+
+        .question-card {
+            background: #F0F9FF;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 30px 0;
+            border: 3px solid #4B8DF8;
+        }
+
+        .question-number {
+            color: #64748B;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #4B8DF8;
+            margin: 30px 0;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 500px;
+            margin: 30px auto;
+        }
+
+        .option-btn {
+            background: white;
+            border: 3px solid #4B8DF8;
+            padding: 25px;
+            font-size: 1.5em;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #1E293B;
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: #4B8DF8;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .option-btn.correct {
+            background: #34D399 !important;
+            border-color: #34D399 !important;
+            color: white !important;
+            animation: pulseBtn 0.5s ease;
+        }
+
+        .option-btn.wrong {
+            background: #F87171 !important;
+            border-color: #F87171 !important;
+            color: white !important;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes pulseBtn {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .feedback {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feedback.show {
+            opacity: 1;
+        }
+
+        .feedback.correct {
+            background: #34D399;
+            color: white;
+        }
+
+        .feedback.wrong {
+            background: #F87171;
+            color: white;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #E2E8F0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #34D399, #10B981);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .test-info {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .stat-box {
+            background: #4B8DF8;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .timer {
+            background: #F87171;
+        }
+
+        .results {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .results h2 {
+            font-size: 2.5em;
+            color: #4B8DF8;
+            margin-bottom: 20px;
+        }
+
+        .score-big {
+            font-size: 4em;
+            font-weight: bold;
+            color: #34D399;
+            margin: 30px 0;
+        }
+
+        .result-message {
+            font-size: 1.5em;
+            color: #334155;
+            margin: 20px 0;
+        }
+
+        .stars {
+            font-size: 4em;
+            margin: 20px 0;
+        }
+
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            animation: confettiFall 3s linear forwards;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .sound-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #FBBF24;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .sound-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .steps-box {
+            background: #FFF3CD;
+            border: 3px solid #FBBF24;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .step {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 20px; }
+            .home-screen h1 { font-size: 2em; }
+            .mode-btn { padding: 20px 30px; font-size: 1.2em; }
+            .question { font-size: 2em; }
+            .options { grid-template-columns: 1fr; }
+            .lesson-text { font-size: 1.1em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="confetti-container" id="confettiContainer"></div>
+    
+    <div class="container">
+        <button class="sound-toggle" id="soundToggle" onclick="toggleSound()">🔊</button>
+
+        <!-- Home Screen -->
+        <div class="screen active" id="homeScreen">
+            <div class="home-screen">
+                <div class="character">
+                    <div class="robot">🎯</div>
+                </div>
+                <h1>🎯 LCM Adventure! 🎯</h1>
+                <p class="subtitle">Master Least Common Multiple in a Fun Way!</p>
+                
+                <div class="mode-buttons">
+                    <button class="mode-btn learn" onclick="startMode('learn')">
+                        📚 LEARN<br><small>Understand LCM</small>
+                    </button>
+                    <button class="mode-btn practice" onclick="startMode('practice')">
+                        🎮 PRACTICE<br><small>Find LCMs</small>
+                    </button>
+                    <button class="mode-btn test" onclick="startMode('test')">
+                        🧪 TEST<br><small>Challenge Yourself!</small>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learn Mode -->
+        <div class="screen" id="learnScreen">
+            <div class="header">
+                <button class="back-btn" onclick="goHome()">⬅ Back</button>
+                <h2 style="color: #34D399; font-size: 2em;">📚 Learn Mode</h2>
+                <div style="width: 80px;"></div>
+            </div>
+            
+            <div class="learn-content" id="learnContent"></div>
+            
+            <div class="navigation-buttons">
+                <button class="nav-btn" id="prevBtn" onclick="previousLesson()">⬅ Previous</button>
+                <button class="nav-btn" id="nextBtn" onclick="nextLesson()">Next ➡</button>
+            </div>
+        </div>
+
+        <!-- Practice Mode -->
+        <div class="screen" id="practiceScreen">
+            <div class="header">
+                <button class="back-btn" onclick="goHome()">⬅ Back</button>
+                <div class="score-display">⭐ Score: <span id="practiceScore">0</span></div>
+            </div>
+
+            <div class="character">
+                <div class="robot" id="practiceRobot">🎯</div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="practiceProgress" style="width: 0%">0/20</div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number" id="questionNum">Question 1</div>
+                <div class="question" id="practiceQuestion">LCM of 4 and 6?</div>
+                <div class="options" id="practiceOptions"></div>
+                <div class="feedback" id="practiceFeedback"></div>
+            </div>
+        </div>
+
+        <!-- Test Mode -->
+        <div class="screen" id="testScreen">
+            <div class="header">
+                <button class="back-btn" onclick="goHome()">⬅ Back</button>
+                <div style="width: 80px;"></div>
+            </div>
+
+            <div id="testContent">
+                <div class="test-info">
+                    <div class="stat-box">📝 <span id="testQuestionNum">1</span>/10</div>
+                    <div class="stat-box timer">⏱ <span id="timer">60</span>s</div>
+                    <div class="stat-box">⭐ <span id="testScore">0</span></div>
+                </div>
+
+                <div class="question-card">
+                    <div class="question" id="testQuestion">LCM of 4 and 6?</div>
+                    <div class="options" id="testOptions"></div>
+                    <div class="feedback" id="testFeedback"></div>
+                </div>
+            </div>
+
+            <div id="testResults" style="display: none;">
+                <div class="results">
+                    <h2>🎉 Test Complete! 🎉</h2>
+                    <div class="stars" id="resultStars">⭐⭐⭐</div>
+                    <div class="score-big"><span id="finalScore">8</span>/10</div>
+                    <div class="result-message" id="resultMessage">You're an LCM Master!</div>
+                    <div class="navigation-buttons">
+                        <button class="nav-btn" onclick="startMode('test')">Try Again</button>
+                        <button class="nav-btn" onclick="goHome()">Home</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game State - Global Variables
+        var soundEnabled = true;
+        var currentLesson = 0;
+        var practiceScore = 0;
+        var practiceQuestionNum = 0;
+        var practiceQuestionsAnswered = 0;
+        var testScore = 0;
+        var testQuestionNum = 0;
+        var testTimer = 60;
+        var timerInterval = null;
+        var currentAnswer = 0;
+        var maxPracticeQuestions = 20;
+        var maxTestQuestions = 10;
+
+        // Lessons Data
+        var lessons = [
+            {
+                title: "What is LCM?",
+                html: `
+                    <div class="lesson">
+                        <h2>Welcome to LCM Adventure!</h2>
+                        <div class="speech-bubble">
+                            <strong>🎯 Your Guide:</strong> Hi! LCM stands for Least Common Multiple - it's the smallest number that two or more numbers can both divide into evenly!
+                        </div>
+                        <div class="lesson-text">
+                            <p><strong>What is a Multiple?</strong></p>
+                            <p>A multiple is what you get when you multiply a number by 1, 2, 3, 4, and so on.</p>
+                            <p><strong>Example:</strong> Multiples of 3 are: 3, 6, 9, 12, 15, 18, 21, 24...</p>
+                            <p>Multiples of 4 are: 4, 8, 12, 16, 20, 24, 28...</p>
+                        </div>
+                        <div class="example-box">
+                            <div class="visual-items">
+                                <div class="number-box">3</div>
+                                <span style="font-size: 2em;">→</span>
+                                <div style="font-size: 1.3em;">3, 6, 9, 12, 15, 18...</div>
+                            </div>
+                            <div class="visual-items" style="margin-top: 20px;">
+                                <div class="number-box">4</div>
+                                <span style="font-size: 2em;">→</span>
+                                <div style="font-size: 1.3em;">4, 8, 12, 16, 20, 24...</div>
+                            </div>
+                        </div>
+                        <div class="example-box">
+                            <h3 style="color: #34D399;">🎯 LCM helps solve timing and grouping problems!</h3>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "Finding LCM - Listing Method",
+                html: `
+                    <div class="lesson">
+                        <h2>Method 1: List the Multiples</h2>
+                        <div class="speech-bubble">
+                            <strong>🎯:</strong> Let's find LCM of 4 and 6 by listing their multiples and finding the smallest common one!
+                        </div>
+                        <div class="steps-box">
+                            <div class="step"><strong>Step 1:</strong> List multiples of 4:<br>
+                            4, 8, <strong style="color: #34D399; font-size: 1.2em;">12</strong>, 16, 20, 24, 28...</div>
+                            <div class="step"><strong>Step 2:</strong> List multiples of 6:<br>
+                            6, <strong style="color: #34D399; font-size: 1.2em;">12</strong>, 18, 24, 30, 36...</div>
+                            <div class="step"><strong>Step 3:</strong> Find the smallest common multiple:<br>
+                            The first number that appears in both lists is <strong style="color: #34D399; font-size: 1.3em;">12</strong></div>
+                        </div>
+                        <div class="example-box">
+                            <h3 style="color: #34D399;">✅ The LCM of 4 and 6 is 12!</h3>
+                            <p style="margin-top: 15px;">12 is the smallest number that both 4 and 6 divide into evenly!</p>
+                            <p>4 × 3 = 12 ✓</p>
+                            <p>6 × 2 = 12 ✓</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "Visual Method with Grids",
+                html: `
+                    <div class="lesson">
+                        <h2>Visualizing Common Multiples</h2>
+                        <div class="speech-bubble">
+                            <strong>🎯:</strong> Watch how we find the LCM of 3 and 5 visually!
+                        </div>
+                        <div class="multiples-container">
+                            <div class="multiples-row">
+                                <h4>Multiples of 3:</h4>
+                                <div class="multiples-grid">
+                                    <div class="multiple-item">3</div>
+                                    <div class="multiple-item">6</div>
+                                    <div class="multiple-item">9</div>
+                                    <div class="multiple-item">12</div>
+                                    <div class="multiple-item common">15</div>
+                                    <div class="multiple-item">18</div>
+                                    <div class="multiple-item">21</div>
+                                    <div class="multiple-item">24</div>
+                                </div>
+                            </div>
+                            <div class="multiples-row">
+                                <h4>Multiples of 5:</h4>
+                                <div class="multiples-grid">
+                                    <div class="multiple-item">5</div>
+                                    <div class="multiple-item">10</div>
+                                    <div class="multiple-item common">15</div>
+                                    <div class="multiple-item">20</div>
+                                    <div class="multiple-item">25</div>
+                                    <div class="multiple-item">30</div>
+                                    <div class="multiple-item">35</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="example-box">
+                            <h3 style="color: #34D399;">🎯 LCM of 3 and 5 = 15!</h3>
+                            <p style="margin-top: 15px;">The green boxes show common multiples. The smallest one is 15!</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "Prime Factorization Method",
+                html: `
+                    <div class="lesson">
+                        <h2>Method 2: Prime Factorization</h2>
+                        <div class="speech-bubble">
+                            <strong>🎯:</strong> This is a faster way for bigger numbers! Let's use prime factors!
+                        </div>
+                        <div class="lesson-text">
+                            <p><strong>Example: Find LCM of 12 and 18</strong></p>
+                        </div>
+                        <div class="steps-box">
+                            <div class="step"><strong>Step 1:</strong> Break each number into prime factors<br>
+                            <strong>12 = 2 × 2 × 3</strong> (or 2² × 3)<br>
+                            <strong>18 = 2 × 3 × 3</strong> (or 2 × 3²)</div>
+                            <div class="step"><strong>Step 2:</strong> Take the highest power of each prime number<br>
+                            For prime 2: highest power is <strong>2²</strong> (from 12)<br>
+                            For prime 3: highest power is <strong>3²</strong> (from 18)</div>
+                            <div class="step"><strong>Step 3:</strong> Multiply them together<br>
+                            LCM = <strong>2² × 3²</strong> = <strong>4 × 9</strong> = <strong style="color: #34D399; font-size: 1.3em;">36</strong></div>
+                        </div>
+                        <div class="example-box">
+                            <h3 style="color: #34D399;">✅ LCM of 12 and 18 = 36!</h3>
+                            <p style="margin-top: 15px;">This method works great for larger numbers!</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "Real-World Applications",
+                html: `
+                    <div class="lesson">
+                        <h2>Why Do We Need LCM?</h2>
+                        <div class="speech-bubble">
+                            <strong>🎯:</strong> LCM is super useful in real life! Let me show you some examples!
+                        </div>
+                        <div class="lesson-text">
+                            <p><strong>🚌 Bus Schedule Problem:</strong></p>
+                            <p>Bus A arrives every 6 minutes. Bus B arrives every 8 minutes. If both buses are at the stop now, when will they both be there together again?</p>
+                            <p><strong>Solution:</strong> LCM of 6 and 8 = 24 minutes! They'll meet again in 24 minutes.</p>
+                            <br>
+                            <p><strong>🍕 Pizza Party Problem:</strong></p>
+                            <p>You have pizzas cut into 4 slices and pizzas cut into 6 slices. What's the smallest number of slices to have equal amounts from each type?</p>
+                            <p><strong>Solution:</strong> LCM of 4 and 6 = 12 slices! You need 12 slices total (3 pizzas of 4 slices, 2 pizzas of 6 slices).</p>
+                            <br>
+                            <p><strong>⏰ Alarm Clock Problem:</strong></p>
+                            <p>Two alarms ring: one every 3 hours, another every 5 hours. If both ring now, when will they ring together again?</p>
+                            <p><strong>Solution:</strong> LCM of 3 and 5 = 15 hours!</p>
+                        </div>
+                        <div class="example-box">
+                            <h3 style="color: #34D399;">🎯 Now you see why LCM is so useful!</h3>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "Quick Tips & Tricks",
+                html: `
+                    <div class="lesson">
+                        <h2>🌟 LCM Tips & Tricks!</h2>
+                        <div class="speech-bubble">
+                            <strong>🎯:</strong> Here are some shortcuts to find LCM faster!
+                        </div>
+                        <div class="steps-box">
+                            <div class="step">
+                                <strong>Tip 1:</strong> If one number divides the other, the LCM is the bigger number!<br>
+                                Example: LCM(4, 12) = 12 (because 12 ÷ 4 = 3 evenly)
+                            </div>
+                            <div class="step">
+                                <strong>Tip 2:</strong> For prime numbers, just multiply them!<br>
+                                Example: LCM(3, 5) = 3 × 5 = 15<br>
+                                Example: LCM(7, 11) = 7 × 11 = 77
+                            </div>
+                            <div class="step">
+                                <strong>Tip 3:</strong> LCM is always greater than or equal to the largest number<br>
+                                Example: LCM(4, 6) must be ≥ 6
+                            </div>
+                            <div class="step">
+                                <strong>Tip 4:</strong> For two numbers: LCM × GCD = Product of the numbers<br>
+                                Example: For 4 and 6:<br>
+                                LCM(12) × GCD(2) = 4 × 6 = 24 ✓
+                            </div>
+                            <div class="step">
+                                <strong>Tip 5:</strong> LCM of consecutive numbers is their product<br>
+                                Example: LCM(5, 6) = 5 × 6 = 30
+                            </div>
+                        </div>
+                        <div class="example-box">
+                            <h3 style="color: #34D399;">💪 Practice these tricks to become an LCM expert!</h3>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        // Sound Effects
+        function playSound(type) {
+            if (!soundEnabled) return;
+            
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                if (type === 'correct') {
+                    oscillator.frequency.value = 523.25;
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.5);
+                } else if (type === 'wrong') {
+                    oscillator.frequency.value = 200;
+                    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.3);
+                }
+            } catch (e) {
+                console.log('Audio not supported');
+            }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            document.getElementById('soundToggle').textContent = soundEnabled ? '🔊' : '🔇';
+        }
+
+        // Navigation
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function goHome() {
+            showScreen('homeScreen');
+            if (timerInterval) clearInterval(timerInterval);
+        }
+
+        // Start Modes
+        function startMode(mode) {
+            if (mode === 'learn') {
+                currentLesson = 0;
+                showScreen('learnScreen');
+                displayLesson();
+            } else if (mode === 'practice') {
+                practiceScore = 0;
+                practiceQuestionNum = 0;
+                practiceQuestionsAnswered = 0;
+                showScreen('practiceScreen');
+                document.getElementById('practiceScore').textContent = '0';
+                document.getElementById('practiceProgress').style.width = '0%';
+                document.getElementById('practiceProgress').textContent = '0/20';
+                nextPracticeQuestion();
+            } else if (mode === 'test') {
+                testScore = 0;
+                testQuestionNum = 0;
+                testTimer = 60;
+                showScreen('testScreen');
+                document.getElementById('testContent').style.display = 'block';
+                document.getElementById('testResults').style.display = 'none';
+                document.getElementById('testScore').textContent = '0';
+                document.getElementById('timer').textContent = '60';
+                startTestTimer();
+                nextTestQuestion();
+            }
+        }
+
+        // LEARN MODE
+        function displayLesson() {
+            document.getElementById('learnContent').innerHTML = lessons[currentLesson].html;
+            
+            document.getElementById('prevBtn').disabled = currentLesson === 0;
+            document.getElementById('nextBtn').disabled = currentLesson === lessons.length - 1;
+        }
+
+        function nextLesson() {
+            if (currentLesson < lessons.length - 1) {
+                currentLesson++;
+                displayLesson();
+            }
+        }
+
+        function previousLesson() {
+            if (currentLesson > 0) {
+                currentLesson--;
+                displayLesson();
+            }
+        }
+
+        // LCM Calculation
+        function gcd(a, b) {
+            return b === 0 ? a : gcd(b, a % b);
+        }
+
+        function calculateLCM(a, b) {
+            return (a * b) / gcd(a, b);
+        }
+
+        // PRACTICE MODE
+        function generateLCMProblem() {
+            // Generate two numbers between 2 and 15
+            const num1 = Math.floor(Math.random() * 14) + 2;
+            const num2 = Math.floor(Math.random() * 14) + 2;
+            
+            const answer = calculateLCM(num1, num2);
+            const question = `LCM of ${num1} and ${num2}?`;
+            
+            const options = generateLCMOptions(answer, num1, num2);
+            
+            return { question, answer, options, num1, num2 };
+        }
+
+        function generateLCMOptions(correctAnswer, num1, num2) {
+            const options = [correctAnswer];
+            
+            // Add logical wrong answers
+            const product = num1 * num2;
+            const sum = num1 + num2;
+            const larger = Math.max(num1, num2);
+            const smaller = Math.min(num1, num2);
+            
+            // Add product if different and reasonable
+            if (product !== correctAnswer && product < correctAnswer * 3 && !options.includes(product)) {
+                options.push(product);
+            }
+            
+            // Add larger number if different
+            if (larger !== correctAnswer && !options.includes(larger)) {
+                options.push(larger);
+            }
+            
+            // Add some nearby multiples
+            const multiples = [correctAnswer / 2, correctAnswer * 2, correctAnswer + smaller, correctAnswer - smaller];
+            for (let mult of multiples) {
+                if (mult > 0 && mult !== correctAnswer && !options.includes(mult) && options.length < 4) {
+                    options.push(Math.round(mult));
+                }
+            }
+            
+            // Fill remaining slots with random reasonable values
+            while (options.length < 4) {
+                const offset = Math.floor(Math.random() * 20) - 10;
+                const option = correctAnswer + offset;
+                if (option > 0 && !options.includes(option)) {
+                    options.push(option);
+                }
+            }
+            
+            return options.slice(0, 4).sort(() => Math.random() - 0.5);
+        }
+
+        function nextPracticeQuestion() {
+            if (practiceQuestionsAnswered >= maxPracticeQuestions) {
+                showPracticeComplete();
+                return;
+            }
+
+            practiceQuestionNum++;
+            
+            const problem = generateLCMProblem();
+            currentAnswer = problem.answer;
+            
+            document.getElementById('questionNum').textContent = `Question ${practiceQuestionNum}`;
+            document.getElementById('practiceQuestion').textContent = problem.question;
+            document.getElementById('practiceScore').textContent = practiceScore;
+            
+            const progress = (practiceQuestionsAnswered / maxPracticeQuestions) * 100;
+            document.getElementById('practiceProgress').style.width = progress + '%';
+            document.getElementById('practiceProgress').textContent = `${practiceQuestionsAnswered}/${maxPracticeQuestions}`;
+            
+            const optionsContainer = document.getElementById('practiceOptions');
+            optionsContainer.innerHTML = '';
+            
+            problem.options.forEach(option => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = option;
+                btn.onclick = () => checkPracticeAnswer(option, btn);
+                optionsContainer.appendChild(btn);
+            });
+            
+            document.getElementById('practiceFeedback').className = 'feedback';
+        }
+
+        function checkPracticeAnswer(selected, button) {
+            const buttons = document.querySelectorAll('#practiceOptions .option-btn');
+            buttons.forEach(btn => btn.disabled = true);
+            
+            const feedback = document.getElementById('practiceFeedback');
+            const robot = document.getElementById('practiceRobot');
+            
+            practiceQuestionsAnswered++;
+            
+            if (selected === currentAnswer) {
+                button.classList.add('correct');
+                feedback.textContent = '✅ Excellent! That\'s the correct LCM!';
+                feedback.className = 'feedback correct show';
+                practiceScore += 10;
+                robot.textContent = '😊';
+                playSound('correct');
+                createConfetti();
+                
+                setTimeout(() => {
+                    robot.textContent = '🎯';
+                    nextPracticeQuestion();
+                }, 2000);
+            } else {
+                button.classList.add('wrong');
+                buttons.forEach(btn => {
+                    if (parseInt(btn.textContent) === currentAnswer) {
+                        btn.classList.add('correct');
+                    }
+                });
+                feedback.textContent = `❌ Not quite! The correct LCM is ${currentAnswer}`;
+                feedback.className = 'feedback wrong show';
+                robot.textContent = '😢';
+                playSound('wrong');
+                
+                setTimeout(() => {
+                    robot.textContent = '🎯';
+                    nextPracticeQuestion();
+                }, 3000);
+            }
+            
+            document.getElementById('practiceScore').textContent = practiceScore;
+        }
+
+        function showPracticeComplete() {
+            const container = document.querySelector('#practiceScreen .question-card');
+            
+            let stars = '';
+            let message = '';
+            const percentage = (practiceScore / (maxPracticeQuestions * 10)) * 100;
+            
+            if (percentage >= 90) {
+                stars = '⭐⭐⭐';
+                message = "🎉 Outstanding! You're an LCM Master! 🎉";
+                createConfetti();
+                setTimeout(() => createConfetti(), 300);
+            } else if (percentage >= 70) {
+                stars = '⭐⭐';
+                message = "Excellent work! You really understand LCM!";
+                createConfetti();
+            } else if (percentage >= 50) {
+                stars = '⭐';
+                message = "Good job! Keep practicing to improve!";
+            } else {
+                stars = '💪';
+                message = "Keep practicing! You're getting better!";
+            }
+            
+            container.innerHTML = `
+                <div class="results">
+                    <h2>🎉 Practice Complete! 🎉</h2>
+                    <div class="stars">${stars}</div>
+                    <div class="score-big">${practiceScore}/${maxPracticeQuestions * 10}</div>
+                    <div class="result-message">${message}</div>
+                    <div class="navigation-buttons">
+                        <button class="nav-btn" onclick="startMode('practice')">Practice Again</button>
+                        <button class="nav-btn" onclick="goHome()">Home</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // TEST MODE
+        function startTestTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            
+            timerInterval = setInterval(() => {
+                testTimer--;
+                document.getElementById('timer').textContent = testTimer;
+                
+                if (testTimer <= 0) {
+                    clearInterval(timerInterval);
+                    showTestResults();
+                }
+            }, 1000);
+        }
+
+        function nextTestQuestion() {
+            if (testQuestionNum >= maxTestQuestions) {
+                clearInterval(timerInterval);
+                showTestResults();
+                return;
+            }
+            
+            testQuestionNum++;
+            
+            const problem = generateLCMProblem();
+            currentAnswer = problem.answer;
+            
+            document.getElementById('testQuestionNum').textContent = testQuestionNum;
+            document.getElementById('testQuestion').textContent = problem.question;
+            document.getElementById('testScore').textContent = testScore;
+            
+            const optionsContainer = document.getElementById('testOptions');
+            optionsContainer.innerHTML = '';
+            
+            problem.options.forEach(option => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = option;
+                btn.onclick = () => checkTestAnswer(option, btn);
+                optionsContainer.appendChild(btn);
+            });
+            
+            document.getElementById('testFeedback').className = 'feedback';
+        }
+
+        function checkTestAnswer(selected, button) {
+            const buttons = document.querySelectorAll('#testOptions .option-btn');
+            buttons.forEach(btn => btn.disabled = true);
+            
+            const feedback = document.getElementById('testFeedback');
+            
+            if (selected === currentAnswer) {
+                button.classList.add('correct');
+                feedback.textContent = '✅ Correct!';
+                feedback.className = 'feedback correct show';
+                testScore++;
+                playSound('correct');
+                createConfetti();
+            } else {
+                button.classList.add('wrong');
+                buttons.forEach(btn => {
+                    if (parseInt(btn.textContent) === currentAnswer) {
+                        btn.classList.add('correct');
+                    }
+                });
+                feedback.textContent = `❌ Wrong! Correct answer: ${currentAnswer}`;
+                feedback.className = 'feedback wrong show';
+                playSound('wrong');
+            }
+            
+            document.getElementById('testScore').textContent = testScore;
+            
+            setTimeout(() => {
+                nextTestQuestion();
+            }, 1500);
+        }
+
+        function showTestResults() {
+            clearInterval(timerInterval);
+            document.getElementById('testContent').style.display = 'none';
+            document.getElementById('testResults').style.display = 'block';
+            
+            document.getElementById('finalScore').textContent = testScore;
+            
+            let stars = '';
+            let message = '';
+            
+            if (testScore >= 9) {
+                stars = '⭐⭐⭐';
+                message = "🎉 Amazing! You're an LCM Champion! 🎉";
+                createConfetti();
+                setTimeout(() => createConfetti(), 400);
+                setTimeout(() => createConfetti(), 800);
+            } else if (testScore >= 7) {
+                stars = '⭐⭐';
+                message = "Great job! You've mastered LCM basics!";
+                createConfetti();
+            } else if (testScore >= 5) {
+                stars = '⭐';
+                message = "Good effort! Review the lessons and try again!";
+            } else {
+                stars = '💪';
+                message = "Keep practicing! Go back to Learn mode!";
+            }
+            
+            document.getElementById('resultStars').textContent = stars;
+            document.getElementById('resultMessage').textContent = message;
+        }
+
+        // Confetti Effect
+        function createConfetti() {
+            const container = document.getElementById('confettiContainer');
+            const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#34D399', '#4B8DF8'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    
+                    container.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            console.log('LCM Adventure loaded successfully!');
+        };
+    </script>
+</body>
+</html>

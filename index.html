@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Algebra Adventure 🧮</title>
+    <title>Math Adventure Hub 🎓</title>
     <style>
         * {
             margin: 0;
@@ -13,1168 +13,635 @@
 
         body {
             font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial', sans-serif;
-            background: linear-gradient(to top, #87CEEB, #E0F2FE);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             color: #1E293B;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background Elements */
+        .bg-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            font-size: 80px;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            top: 60%;
+            left: 80%;
+            font-size: 100px;
+            animation-delay: 5s;
+        }
+
+        .shape:nth-child(3) {
+            top: 80%;
+            left: 20%;
+            font-size: 90px;
+            animation-delay: 10s;
+        }
+
+        .shape:nth-child(4) {
+            top: 20%;
+            left: 70%;
+            font-size: 70px;
+            animation-delay: 15s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-30px) rotate(180deg);
+            }
         }
 
         .container {
             width: 95%;
-            max-width: 1000px;
+            max-width: 1200px;
             background: white;
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-            padding: 40px;
+            border-radius: 40px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+            padding: 60px 40px;
             position: relative;
-            overflow: hidden;
-        }
-
-        /* Home Screen */
-        .home-screen {
+            z-index: 1;
             text-align: center;
         }
 
-        .home-screen h1 {
-            font-size: 3em;
-            color: #4B8DF8;
+        .header-section {
+            margin-bottom: 50px;
+        }
+
+        .main-icon {
+            font-size: 120px;
+            animation: bounce 2s infinite, rotate 4s infinite;
+            display: inline-block;
             margin-bottom: 20px;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.1);
-            animation: bounce 2s infinite;
         }
 
         @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        @keyframes rotate {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        h1 {
+            font-size: 4em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
         }
 
         .subtitle {
-            font-size: 1.3em;
-            color: #64748B;
-            margin-bottom: 40px;
-        }
-
-        .mode-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-            margin-top: 40px;
-        }
-
-        .mode-btn {
-            background: #4B8DF8;
-            color: white;
-            border: none;
-            padding: 30px 50px;
             font-size: 1.5em;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(75, 141, 248, 0.4);
-            font-weight: bold;
-        }
-
-        .mode-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(75, 141, 248, 0.6);
-            background: #3B7DE8;
-        }
-
-        .mode-btn.learn { background: #34D399; box-shadow: 0 8px 20px rgba(52, 211, 153, 0.4); }
-        .mode-btn.learn:hover { background: #24C389; }
-        
-        .mode-btn.practice { background: #FBBF24; color: #1E293B; box-shadow: 0 8px 20px rgba(251, 191, 36, 0.4); }
-        .mode-btn.practice:hover { background: #EBAF14; }
-        
-        .mode-btn.test { background: #F87171; box-shadow: 0 8px 20px rgba(248, 113, 113, 0.4); }
-        .mode-btn.test:hover { background: #E86161; }
-
-        /* Character */
-        .character {
-            width: 150px;
-            height: 150px;
-            margin: 0 auto 30px;
-            position: relative;
-        }
-
-        .robot {
-            font-size: 120px;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        /* Shared Elements */
-        .screen {
-            display: none;
-        }
-
-        .screen.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 3px solid #E0F2FE;
-        }
-
-        .back-btn {
-            background: #64748B;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .back-btn:hover {
-            background: #475569;
-            transform: scale(1.05);
-        }
-
-        .score-display {
-            background: #FBBF24;
-            padding: 12px 25px;
-            border-radius: 15px;
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #1E293B;
-        }
-
-        /* Learn Mode */
-        .learn-content {
-            text-align: center;
-        }
-
-        .lesson {
-            margin: 30px 0;
-            padding: 30px;
-            background: #F0F9FF;
-            border-radius: 20px;
-            border: 3px solid #4B8DF8;
-        }
-
-        .lesson h2 {
-            color: #4B8DF8;
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-
-        .lesson-text {
-            font-size: 1.3em;
-            line-height: 1.8;
-            color: #334155;
-            margin: 20px 0;
-        }
-
-        .example-box {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            margin: 20px auto;
-            max-width: 600px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .equation {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #4B8DF8;
-            margin: 20px 0;
-        }
-
-        .visual-items {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .item {
-            font-size: 3em;
-            animation: popIn 0.5s ease;
-        }
-
-        @keyframes popIn {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        .mystery-box {
-            background: linear-gradient(135deg, #FBBF24, #F59E0B);
-            width: 80px;
-            height: 80px;
-            border-radius: 15px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5em;
-            color: white;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            animation: shake 1s infinite;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(-5deg); }
-            75% { transform: rotate(5deg); }
-        }
-
-        .speech-bubble {
-            background: #34D399;
-            color: white;
-            padding: 20px;
-            border-radius: 20px;
-            position: relative;
-            margin: 20px auto;
-            max-width: 600px;
-            font-size: 1.2em;
-            animation: slideIn 0.5s ease;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(-50px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        .navigation-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .nav-btn {
-            background: #4B8DF8;
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            border-radius: 15px;
-            font-size: 1.2em;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .nav-btn:hover {
-            background: #3B7DE8;
-            transform: scale(1.05);
-        }
-
-        .nav-btn:disabled {
-            background: #94A3B8;
-            cursor: not-allowed;
-            transform: scale(1);
-        }
-
-        /* Practice Mode */
-        .question-card {
-            background: #F0F9FF;
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            margin: 30px 0;
-            border: 3px solid #4B8DF8;
-        }
-
-        .question-number {
             color: #64748B;
-            font-size: 1.2em;
             margin-bottom: 20px;
+            font-weight: 600;
         }
 
-        .question {
-            font-size: 3em;
-            font-weight: bold;
-            color: #4B8DF8;
-            margin: 30px 0;
+        .description {
+            font-size: 1.2em;
+            color: #475569;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
         }
 
-        .options {
+        .adventures-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            max-width: 500px;
-            margin: 30px auto;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .option-btn {
-            background: white;
-            border: 3px solid #4B8DF8;
-            padding: 25px;
-            font-size: 1.5em;
-            border-radius: 15px;
-            cursor: pointer;
-            font-weight: bold;
-            color: #1E293B;
-            transition: all 0.3s ease;
-        }
-
-        .option-btn:hover:not(:disabled) {
-            background: #4B8DF8;
-            color: white;
-            transform: scale(1.05);
-        }
-
-        .option-btn:disabled {
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-
-        .option-btn.correct {
-            background: #34D399 !important;
-            border-color: #34D399 !important;
-            color: white !important;
-            animation: pulse 0.5s ease;
-        }
-
-        .option-btn.wrong {
-            background: #F87171 !important;
-            border-color: #F87171 !important;
-            color: white !important;
-            animation: shake 0.5s ease;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .feedback {
-            font-size: 1.5em;
-            font-weight: bold;
-            margin: 20px 0;
-            padding: 20px;
-            border-radius: 15px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .feedback.show {
-            opacity: 1;
-        }
-
-        .feedback.correct {
-            background: #34D399;
-            color: white;
-        }
-
-        .feedback.wrong {
-            background: #F87171;
-            color: white;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 30px;
-            background: #E2E8F0;
-            border-radius: 15px;
+        .adventure-card {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 30px;
+            padding: 40px 30px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 4px solid transparent;
+            position: relative;
             overflow: hidden;
-            margin: 20px 0;
-        }
-
-        .progress-fill {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
             height: 100%;
-            background: linear-gradient(to right, #34D399, #10B981);
-            transition: width 0.5s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
         }
 
-        /* Test Mode */
-        .test-info {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .stat-box {
-            background: #4B8DF8;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 15px;
-            font-size: 1.3em;
-            font-weight: bold;
-        }
-
-        .timer {
-            background: #F87171;
-        }
-
-        .results {
-            text-align: center;
-            padding: 40px;
-        }
-
-        .results h2 {
-            font-size: 2.5em;
-            color: #4B8DF8;
-            margin-bottom: 20px;
-        }
-
-        .score-big {
-            font-size: 4em;
-            font-weight: bold;
-            color: #34D399;
-            margin: 30px 0;
-        }
-
-        .result-message {
-            font-size: 1.5em;
-            color: #334155;
-            margin: 20px 0;
-        }
-
-        .stars {
-            font-size: 4em;
-            margin: 20px 0;
-        }
-
-        /* Confetti */
-        .confetti-container {
-            position: fixed;
+        .adventure-card::before {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            z-index: 1000;
+            background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            animation: confettiFall 3s linear forwards;
+        .adventure-card:hover::before {
+            opacity: 1;
         }
 
-        @keyframes confettiFall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
+        .adventure-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
         }
 
-        /* Sound toggle */
-        .sound-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: #FBBF24;
+        .adventure-card.algebra {
+            border-color: #4B8DF8;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        }
+
+        .adventure-card.algebra:hover {
+            border-color: #3B7DE8;
+            box-shadow: 0 20px 60px rgba(75, 141, 248, 0.4);
+        }
+
+        .adventure-card.lcm {
+            border-color: #34D399;
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        }
+
+        .adventure-card.lcm:hover {
+            border-color: #10B981;
+            box-shadow: 0 20px 60px rgba(52, 211, 153, 0.4);
+        }
+
+        .adventure-card.hcf {
+            border-color: #F87171;
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        }
+
+        .adventure-card.hcf:hover {
+            border-color: #EF4444;
+            box-shadow: 0 20px 60px rgba(248, 113, 113, 0.4);
+        }
+
+        .card-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: wiggle 2s infinite;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+
+        .adventure-card:hover .card-icon {
+            animation: spin 0.6s ease;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            to { transform: rotate(360deg) scale(1); }
+        }
+
+        .card-title {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #1E293B;
+        }
+
+        .card-description {
+            font-size: 1.1em;
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .card-topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .topic-tag {
+            background: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #334155;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            font-size: 1.5em;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.2em;
+            font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            z-index: 10;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            display: inline-block;
+            margin-top: auto;
         }
 
-        .sound-toggle:hover {
-            transform: scale(1.1);
+        .start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1em;
+            color: #475569;
+            font-weight: 600;
+        }
+
+        .feature-icon {
+            font-size: 1.5em;
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #E2E8F0;
+            color: #64748B;
+            font-size: 1em;
         }
 
         /* Responsive */
+        @media (max-width: 1024px) {
+            .adventures-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 30px;
+            }
+        }
+
         @media (max-width: 768px) {
-            .container { padding: 20px; }
-            .home-screen h1 { font-size: 2em; }
-            .mode-btn { padding: 20px 30px; font-size: 1.2em; }
-            .question { font-size: 2em; }
-            .options { grid-template-columns: 1fr; }
-            .lesson-text { font-size: 1.1em; }
+            .container {
+                padding: 40px 25px;
+                border-radius: 30px;
+            }
+
+            h1 {
+                font-size: 2.8em;
+            }
+
+            .subtitle {
+                font-size: 1.3em;
+            }
+
+            .description {
+                font-size: 1.1em;
+            }
+
+            .adventures-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .main-icon {
+                font-size: 90px;
+            }
+
+            .card-icon {
+                font-size: 70px;
+            }
+
+            .card-title {
+                font-size: 1.8em;
+            }
+
+            .card-description {
+                font-size: 1em;
+            }
+
+            .start-btn {
+                padding: 14px 35px;
+                font-size: 1.1em;
+            }
+
+            .features {
+                gap: 20px;
+            }
+
+            .feature-item {
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+
+            .container {
+                padding: 30px 20px;
+                border-radius: 25px;
+            }
+
+            h1 {
+                font-size: 2.2em;
+            }
+
+            .subtitle {
+                font-size: 1.1em;
+            }
+
+            .description {
+                font-size: 1em;
+            }
+
+            .main-icon {
+                font-size: 70px;
+            }
+
+            .adventure-card {
+                padding: 30px 20px;
+                border-radius: 25px;
+            }
+
+            .card-icon {
+                font-size: 60px;
+            }
+
+            .card-title {
+                font-size: 1.6em;
+            }
+
+            .card-description {
+                font-size: 0.95em;
+            }
+
+            .topic-tag {
+                font-size: 0.85em;
+                padding: 6px 12px;
+            }
+
+            .start-btn {
+                padding: 12px 30px;
+                font-size: 1em;
+            }
+
+            .features {
+                gap: 15px;
+                margin-top: 40px;
+            }
+
+            .feature-item {
+                font-size: 0.9em;
+            }
+
+            .footer {
+                margin-top: 40px;
+                font-size: 0.9em;
+            }
+
+            .bg-shapes .shape {
+                font-size: 50px !important;
+            }
+        }
+
+        @media (max-width: 360px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+
+            .description {
+                font-size: 0.9em;
+            }
+
+            .main-icon {
+                font-size: 60px;
+            }
+
+            .adventure-card {
+                padding: 25px 15px;
+            }
+
+            .card-icon {
+                font-size: 50px;
+            }
+
+            .card-title {
+                font-size: 1.4em;
+            }
+
+            .card-description {
+                font-size: 0.9em;
+            }
+
+            .start-btn {
+                padding: 10px 25px;
+                font-size: 0.9em;
+            }
+        }
+
+        /* Loading Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container {
+            animation: fadeIn 0.8s ease;
+        }
+
+        .adventure-card {
+            animation: fadeIn 1s ease;
+        }
+
+        .adventure-card:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .adventure-card:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .adventure-card:nth-child(3) {
+            animation-delay: 0.6s;
         }
     </style>
 </head>
 <body>
-    <div class="confetti-container" id="confettiContainer"></div>
-    
+    <div class="bg-shapes">
+        <div class="shape">📐</div>
+        <div class="shape">📊</div>
+        <div class="shape">🧮</div>
+        <div class="shape">✏️</div>
+    </div>
+
     <div class="container">
-        <button class="sound-toggle" id="soundToggle" onclick="toggleSound()">🔊</button>
+        <div class="header-section">
+            <div class="main-icon">🎓</div>
+            <h1>Math Adventure Hub</h1>
+            <p class="subtitle">Learn Math Through Interactive Games!</p>
+            <p class="description">
+                Welcome to the ultimate math learning platform! Choose your adventure and master important math concepts through fun, interactive games designed for students in grades 4-7.
+            </p>
+        </div>
 
-        <!-- Home Screen -->
-        <div class="screen active" id="homeScreen">
-            <div class="home-screen">
-                <div class="character">
-                    <div class="robot">🤖</div>
+        <div class="adventures-grid">
+            <!-- Algebra Adventure Card -->
+            <a href="algebra.html" class="adventure-card algebra">
+                <div class="card-icon">🧮</div>
+                <h2 class="card-title">Algebra Adventure</h2>
+                <p class="card-description">
+                    Discover the magic of variables and equations! Learn to solve for x through visual lessons and interactive challenges.
+                </p>
+                <div class="card-topics">
+                    <span class="topic-tag">Variables</span>
+                    <span class="topic-tag">Equations</span>
+                    <span class="topic-tag">Problem Solving</span>
                 </div>
-                <h1>🧮 Algebra Adventure! 🧮</h1>
-                <p class="subtitle">Learn, Practice & Master Algebra in a Fun Way!</p>
-                
-                <div class="mode-buttons">
-                    <button class="mode-btn learn" onclick="startMode('learn')">
-                        📚 LEARN<br><small>Understand the Basics</small>
-                    </button>
-                    <button class="mode-btn practice" onclick="startMode('practice')">
-                        🎮 PRACTICE<br><small>Solve Problems</small>
-                    </button>
-                    <button class="mode-btn test" onclick="startMode('test')">
-                        🧪 TEST<br><small>Challenge Yourself!</small>
-                    </button>
+                <button class="start-btn">Start Learning →</button>
+            </a>
+
+            <!-- LCM Adventure Card -->
+            <a href="LCM.html" class="adventure-card lcm">
+                <div class="card-icon">🎯</div>
+                <h2 class="card-title">LCM Adventure</h2>
+                <p class="card-description">
+                    Master the Least Common Multiple! Learn through listing, prime factorization, and real-world applications.
+                </p>
+                <div class="card-topics">
+                    <span class="topic-tag">Multiples</span>
+                    <span class="topic-tag">LCM Methods</span>
+                    <span class="topic-tag">Applications</span>
                 </div>
+                <button class="start-btn">Start Learning →</button>
+            </a>
+
+            <!-- HCF Adventure Card -->
+            <a href="HCF.html" class="adventure-card hcf">
+                <div class="card-icon">🔢</div>
+                <h2 class="card-title">HCF Adventure</h2>
+                <p class="card-description">
+                    Explore the Highest Common Factor! Understand factors, divisibility, and find the greatest common divisor.
+                </p>
+                <div class="card-topics">
+                    <span class="topic-tag">Factors</span>
+                    <span class="topic-tag">HCF Methods</span>
+                    <span class="topic-tag">Division</span>
+                </div>
+                <button class="start-btn">Start Learning →</button>
+            </a>
+        </div>
+
+        <div class="features">
+            <div class="feature-item">
+                <span class="feature-icon">📚</span>
+                <span>Interactive Lessons</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">🎮</span>
+                <span>Practice Games</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">🧪</span>
+                <span>Timed Tests</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">⭐</span>
+                <span>Track Progress</span>
             </div>
         </div>
 
-        <!-- Learn Mode -->
-        <div class="screen" id="learnScreen">
-            <div class="header">
-                <button class="back-btn" onclick="goHome()">⬅ Back</button>
-                <h2 style="color: #34D399; font-size: 2em;">📚 Learn Mode</h2>
-                <div style="width: 80px;"></div>
-            </div>
-            
-            <div class="learn-content" id="learnContent"></div>
-            
-            <div class="navigation-buttons">
-                <button class="nav-btn" id="prevBtn" onclick="previousLesson()">⬅ Previous</button>
-                <button class="nav-btn" id="nextBtn" onclick="nextLesson()">Next ➡</button>
-            </div>
-        </div>
-
-        <!-- Practice Mode -->
-        <div class="screen" id="practiceScreen">
-            <div class="header">
-                <button class="back-btn" onclick="goHome()">⬅ Back</button>
-                <div class="score-display">⭐ Score: <span id="practiceScore">0</span></div>
-            </div>
-
-            <div class="character">
-                <div class="robot" id="practiceRobot">🤖</div>
-            </div>
-
-            <div class="progress-bar">
-                <div class="progress-fill" id="practiceProgress" style="width: 0%">Question 0</div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-number" id="questionNum">Question 1</div>
-                <div class="question" id="practiceQuestion">x + 5 = 9</div>
-                <div class="options" id="practiceOptions"></div>
-                <div class="feedback" id="practiceFeedback"></div>
-            </div>
-        </div>
-
-        <!-- Test Mode -->
-        <div class="screen" id="testScreen">
-            <div class="header">
-                <button class="back-btn" onclick="goHome()">⬅ Back</button>
-                <div style="width: 80px;"></div>
-            </div>
-
-            <div id="testContent">
-                <div class="test-info">
-                    <div class="stat-box">📝 <span id="testQuestionNum">1</span>/10</div>
-                    <div class="stat-box timer">⏱ <span id="timer">60</span>s</div>
-                    <div class="stat-box">⭐ <span id="testScore">0</span></div>
-                </div>
-
-                <div class="question-card">
-                    <div class="question" id="testQuestion">x + 5 = 9</div>
-                    <div class="options" id="testOptions"></div>
-                    <div class="feedback" id="testFeedback"></div>
-                </div>
-            </div>
-
-            <div id="testResults" style="display: none;">
-                <div class="results">
-                    <h2>🎉 Test Complete! 🎉</h2>
-                    <div class="stars" id="resultStars">⭐⭐⭐</div>
-                    <div class="score-big"><span id="finalScore">8</span>/10</div>
-                    <div class="result-message" id="resultMessage">You're an Algebra Star!</div>
-                    <div class="navigation-buttons">
-                        <button class="nav-btn" onclick="startMode('test')">Try Again</button>
-                        <button class="nav-btn" onclick="goHome()">Home</button>
-                    </div>
-                </div>
-            </div>
+        <div class="footer">
+            <p><strong>Perfect for Grades 4-7</strong> • Learn at Your Own Pace • No Registration Required</p>
+            <p style="margin-top: 10px;">© 2025 Math Adventure Hub - Making Math Fun!</p>
         </div>
     </div>
 
     <script>
-        // Game State
-        let soundEnabled = true;
-        let currentLesson = 0;
-        let practiceScore = 0;
-        let practiceQuestionNum = 0;
-        let testScore = 0;
-        let testQuestionNum = 0;
-        let testTimer = 60;
-        let timerInterval;
-        let currentAnswer = 0;
-
-        // Lessons Data
-        const lessons = [
-            {
-                title: "What is Algebra?",
-                html: `
-                    <div class="lesson">
-                        <h2>Welcome to the Magic World of Algebra!</h2>
-                        <div class="speech-bubble">
-                            <strong>🤖 Algebro:</strong> Hi! I'm your algebra buddy! Algebra is like a treasure hunt where we find hidden numbers!
-                        </div>
-                        <div class="lesson-text">
-                            <p><strong>What is a Variable?</strong></p>
-                            <p>A variable is a letter (like <strong>x</strong>) that represents a mystery number we need to find!</p>
-                        </div>
-                        <div class="example-box">
-                            <div class="mystery-box">x</div>
-                            <p style="margin-top: 20px; font-size: 1.2em;">Think of <strong>x</strong> as a mystery box! 📦</p>
-                            <p>Our job is to figure out what number is hiding inside!</p>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                title: "Addition Equations",
-                html: `
-                    <div class="lesson">
-                        <h2>Solving: x + 3 = 7</h2>
-                        <div class="speech-bubble">
-                            <strong>🤖:</strong> Let's think! What number plus 3 equals 7?
-                        </div>
-                        <div class="visual-items">
-                            <div class="mystery-box">x</div>
-                            <span style="font-size: 2em;">+</span>
-                            <span class="item">🍎</span>
-                            <span class="item">🍎</span>
-                            <span class="item">🍎</span>
-                            <span style="font-size: 2em;">=</span>
-                            <span class="item">🍎</span>
-                            <span class="item">🍎</span>
-                            <span class="item">🍎</span>
-                            <span class="item">🍎</span>
-                            <span class="item">🍎</span>
-                            <span class="item">🍎</span>
-                            <span class="item">🍎</span>
-                        </div>
-                        <div class="lesson-text">
-                            <p><strong>Step 1:</strong> We have x apples + 3 apples = 7 apples total</p>
-                            <p><strong>Step 2:</strong> To find x, subtract 3 from both sides!</p>
-                            <p><strong>Step 3:</strong> 7 - 3 = 4</p>
-                            <p><strong>Answer:</strong> x = 4! ✅</p>
-                        </div>
-                        <div class="equation">x = 4</div>
-                    </div>
-                `
-            },
-            {
-                title: "Subtraction Equations",
-                html: `
-                    <div class="lesson">
-                        <h2>Solving: x - 4 = 5</h2>
-                        <div class="speech-bubble">
-                            <strong>🤖:</strong> What number minus 4 equals 5?
-                        </div>
-                        <div class="lesson-text">
-                            <p><strong>Step 1:</strong> We need to get x alone</p>
-                            <p><strong>Step 2:</strong> Add 4 to both sides! (Opposite of subtract)</p>
-                            <p><strong>Step 3:</strong> x = 5 + 4</p>
-                            <p><strong>Answer:</strong> x = 9! ✅</p>
-                        </div>
-                        <div class="visual-items">
-                            <span class="item">🪙</span>
-                            <span class="item">🪙</span>
-                            <span class="item">🪙</span>
-                            <span class="item">🪙</span>
-                            <span class="item">🪙</span>
-                            <span class="item">🪙</span>
-                            <span class="item">🪙</span>
-                            <span class="item">🪙</span>
-                            <span class="item">🪙</span>
-                        </div>
-                        <div class="equation">x = 9</div>
-                    </div>
-                `
-            },
-            {
-                title: "Multiplication Equations",
-                html: `
-                    <div class="lesson">
-                        <h2>Solving: 2x = 10</h2>
-                        <div class="speech-bubble">
-                            <strong>🤖:</strong> This means 2 times x equals 10!
-                        </div>
-                        <div class="lesson-text">
-                            <p><strong>Step 1:</strong> We have 2 groups of x</p>
-                            <p><strong>Step 2:</strong> Divide both sides by 2! (Opposite of multiply)</p>
-                            <p><strong>Step 3:</strong> x = 10 ÷ 2</p>
-                            <p><strong>Answer:</strong> x = 5! ✅</p>
-                        </div>
-                        <div class="visual-items">
-                            <div style="display: flex; gap: 10px;">
-                                <span class="item">🍕</span>
-                                <span class="item">🍕</span>
-                                <span class="item">🍕</span>
-                                <span class="item">🍕</span>
-                                <span class="item">🍕</span>
-                            </div>
-                            <span style="font-size: 2em;">+</span>
-                            <div style="display: flex; gap: 10px;">
-                                <span class="item">🍕</span>
-                                <span class="item">🍕</span>
-                                <span class="item">🍕</span>
-                                <span class="item">🍕</span>
-                                <span class="item">🍕</span>
-                            </div>
-                        </div>
-                        <div class="equation">x = 5</div>
-                    </div>
-                `
-            },
-            {
-                title: "Division Equations",
-                html: `
-                    <div class="lesson">
-                        <h2>Solving: x ÷ 3 = 4</h2>
-                        <div class="speech-bubble">
-                            <strong>🤖:</strong> What number divided by 3 equals 4?
-                        </div>
-                        <div class="lesson-text">
-                            <p><strong>Step 1:</strong> We need to find x</p>
-                            <p><strong>Step 2:</strong> Multiply both sides by 3! (Opposite of divide)</p>
-                            <p><strong>Step 3:</strong> x = 4 × 3</p>
-                            <p><strong>Answer:</strong> x = 12! ✅</p>
-                        </div>
-                        <div class="visual-items">
-                            <span class="item">🎁</span>
-                            <span class="item">🎁</span>
-                            <span class="item">🎁</span>
-                            <span class="item">🎁</span>
-                            <span class="item">🎁</span>
-                            <span class="item">🎁</span>
-                            <span class="item">🎁</span>
-                            <span class="item">🎁</span>
-                            <span class="item">🎁</span>
-                            <span class="item">🎁</span>
-                            <span class="item">🎁</span>
-                            <span class="item">🎁</span>
-                        </div>
-                        <div class="equation">x = 12</div>
-                    </div>
-                `
-            }
-        ];
-
-        // Sound Effects
-        function playSound(type) {
-            if (!soundEnabled) return;
-            
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                if (type === 'correct') {
-                    oscillator.frequency.value = 523.25;
-                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-                    oscillator.start(audioContext.currentTime);
-                    oscillator.stop(audioContext.currentTime + 0.5);
-                } else if (type === 'wrong') {
-                    oscillator.frequency.value = 200;
-                    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-                    oscillator.start(audioContext.currentTime);
-                    oscillator.stop(audioContext.currentTime + 0.3);
-                }
-            } catch (e) {
-                console.log('Audio not supported');
-            }
-        }
-
-        function toggleSound() {
-            soundEnabled = !soundEnabled;
-            document.getElementById('soundToggle').textContent = soundEnabled ? '🔊' : '🔇';
-        }
-
-        // Navigation
-        function showScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(screenId).classList.add('active');
-        }
-
-        function goHome() {
-            showScreen('homeScreen');
-            if (timerInterval) clearInterval(timerInterval);
-        }
-
-        // Start Modes
-        function startMode(mode) {
-            if (mode === 'learn') {
-                currentLesson = 0;
-                showScreen('learnScreen');
-                displayLesson();
-            } else if (mode === 'practice') {
-                practiceScore = 0;
-                practiceQuestionNum = 0;
-                practiceQuestionsAnswered = 0;
-                showScreen('practiceScreen');
-                document.getElementById('practiceScore').textContent = '0';
-                document.getElementById('practiceProgress').style.width = '0%';
-                document.getElementById('practiceProgress').textContent = '0/20';
-                nextPracticeQuestion();
-            } else if (mode === 'test') {
-                testScore = 0;
-                testQuestionNum = 0;
-                testTimer = 60;
-                showScreen('testScreen');
-                document.getElementById('testContent').style.display = 'block';
-                document.getElementById('testResults').style.display = 'none';
-                document.getElementById('testScore').textContent = '0';
-                document.getElementById('timer').textContent = '60';
-                startTestTimer();
-                nextTestQuestion();
-            }
-        }
-
-        // LEARN MODE
-        function displayLesson() {
-            document.getElementById('learnContent').innerHTML = lessons[currentLesson].html;
-            
-            document.getElementById('prevBtn').disabled = currentLesson === 0;
-            document.getElementById('nextBtn').disabled = currentLesson === lessons.length - 1;
-        }
-
-        function nextLesson() {
-            if (currentLesson < lessons.length - 1) {
-                currentLesson++;
-                displayLesson();
-            }
-        }
-
-        function previousLesson() {
-            if (currentLesson > 0) {
-                currentLesson--;
-                displayLesson();
-            }
-        }
-
-        // PRACTICE MODE
-        let practiceQuestionsAnswered = 0;
-        const maxPracticeQuestions = 20;
-
-        function generateEquation() {
-            const types = ['add', 'subtract', 'multiply', 'divide'];
-            const type = types[Math.floor(Math.random() * types.length)];
-            
-            let equation, answer, options;
-            
-            if (type === 'add') {
-                answer = Math.floor(Math.random() * 10) + 1;
-                const addend = Math.floor(Math.random() * 10) + 1;
-                const sum = answer + addend;
-                equation = `x + ${addend} = ${sum}`;
-            } else if (type === 'subtract') {
-                answer = Math.floor(Math.random() * 10) + 5;
-                const subtrahend = Math.floor(Math.random() * 5) + 1;
-                const difference = answer - subtrahend;
-                equation = `x - ${subtrahend} = ${difference}`;
-            } else if (type === 'multiply') {
-                answer = Math.floor(Math.random() * 8) + 2;
-                const multiplier = Math.floor(Math.random() * 5) + 2;
-                const product = answer * multiplier;
-                equation = `${multiplier}x = ${product}`;
-            } else {
-                const divisor = Math.floor(Math.random() * 5) + 2;
-                const quotient = Math.floor(Math.random() * 8) + 2;
-                answer = divisor * quotient;
-                equation = `x ÷ ${divisor} = ${quotient}`;
-            }
-            
-            options = generateOptions(answer);
-            
-            return { equation, answer, options };
-        }
-
-        function generateOptions(correctAnswer) {
-            const options = [correctAnswer];
-            
-            while (options.length < 4) {
-                const offset = Math.floor(Math.random() * 6) - 3;
-                const option = correctAnswer + offset;
-                if (option > 0 && !options.includes(option)) {
-                    options.push(option);
-                }
-            }
-            
-            return options.sort(() => Math.random() - 0.5);
-        }
-
-        function nextPracticeQuestion() {
-            if (practiceQuestionsAnswered >= maxPracticeQuestions) {
-                showPracticeComplete();
-                return;
-            }
-
-            practiceQuestionNum++;
-            
-            const problem = generateEquation();
-            currentAnswer = problem.answer;
-            
-            document.getElementById('questionNum').textContent = `Question ${practiceQuestionNum}`;
-            document.getElementById('practiceQuestion').textContent = problem.equation;
-            document.getElementById('practiceScore').textContent = practiceScore;
-            
-            const progress = (practiceQuestionsAnswered / maxPracticeQuestions) * 100;
-            document.getElementById('practiceProgress').style.width = progress + '%';
-            document.getElementById('practiceProgress').textContent = `${practiceQuestionsAnswered}/${maxPracticeQuestions}`;
-            
-            const optionsContainer = document.getElementById('practiceOptions');
-            optionsContainer.innerHTML = '';
-            
-            problem.options.forEach(option => {
-                const btn = document.createElement('button');
-                btn.className = 'option-btn';
-                btn.textContent = `x = ${option}`;
-                btn.onclick = () => checkPracticeAnswer(option, btn);
-                optionsContainer.appendChild(btn);
+        // Add hover sound effect (optional)
+        document.querySelectorAll('.adventure-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                // Optional: Add subtle sound effect here
             });
-            
-            document.getElementById('practiceFeedback').className = 'feedback';
-        }
+        });
 
-        function checkPracticeAnswer(selected, button) {
-            const buttons = document.querySelectorAll('#practiceOptions .option-btn');
-            buttons.forEach(btn => btn.disabled = true);
-            
-            const feedback = document.getElementById('practiceFeedback');
-            const robot = document.getElementById('practiceRobot');
-            
-            practiceQuestionsAnswered++;
-            
-            if (selected === currentAnswer) {
-                button.classList.add('correct');
-                feedback.textContent = '✅ Correct! Great job!';
-                feedback.className = 'feedback correct show';
-                practiceScore += 10;
-                robot.textContent = '😊';
-                playSound('correct');
-                createConfetti();
-                
-                setTimeout(() => {
-                    robot.textContent = '🤖';
-                    nextPracticeQuestion();
-                }, 2000);
-            } else {
-                button.classList.add('wrong');
-                buttons.forEach(btn => {
-                    if (btn.textContent === `x = ${currentAnswer}`) {
-                        btn.classList.add('correct');
-                    }
-                });
-                feedback.textContent = `❌ Oops! The correct answer is x = ${currentAnswer}`;
-                feedback.className = 'feedback wrong show';
-                robot.textContent = '😢';
-                playSound('wrong');
-                
-                setTimeout(() => {
-                    robot.textContent = '🤖';
-                    nextPracticeQuestion();
-                }, 3000);
-            }
-            
-            document.getElementById('practiceScore').textContent = practiceScore;
-        }
+        // Smooth scroll animation on load
+        window.addEventListener('load', function() {
+            document.querySelector('.container').style.opacity = '1';
+        });
 
-        function showPracticeComplete() {
-            const container = document.querySelector('#practiceScreen .question-card');
-            
-            let stars = '';
-            let message = '';
-            const percentage = (practiceScore / (maxPracticeQuestions * 10)) * 100;
-            
-            if (percentage >= 90) {
-                stars = '⭐⭐⭐';
-                message = "🎉 Perfect! You're an Algebra Star! 🎉";
-                createConfetti();
-            } else if (percentage >= 70) {
-                stars = '⭐⭐';
-                message = "Excellent work! Keep it up!";
-            } else if (percentage >= 50) {
-                stars = '⭐';
-                message = "Good job! Practice more to improve!";
-            } else {
-                stars = '💪';
-                message = "Keep practicing! You're getting better!";
-            }
-            
-            container.innerHTML = `
-                <div class="results">
-                    <h2>🎉 Practice Complete! 🎉</h2>
-                    <div class="stars">${stars}</div>
-                    <div class="score-big">${practiceScore}/${maxPracticeQuestions * 10}</div>
-                    <div class="result-message">${message}</div>
-                    <div class="navigation-buttons">
-                        <button class="nav-btn" onclick="startMode('practice')">Practice Again</button>
-                        <button class="nav-btn" onclick="goHome()">Home</button>
-                    </div>
-                </div>
-            `;
-        }
-
-        // TEST MODE
-        const maxTestQuestions = 10;
-
-        function startTestTimer() {
-            if (timerInterval) clearInterval(timerInterval);
-            
-            timerInterval = setInterval(() => {
-                testTimer--;
-                document.getElementById('timer').textContent = testTimer;
-                
-                if (testTimer <= 0) {
-                    clearInterval(timerInterval);
-                    showTestResults();
+        // Prevent default link behavior for demo (remove in production)
+        document.querySelectorAll('.adventure-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === 'algebra.html' || href === 'LCM.html' || href === 'HCF.html') {
+                    // In production, these links will work
+                    // For now, you can uncomment the line below to test
+                    // e.preventDefault();
+                    // alert('Navigating to ' + href);
                 }
-            }, 1000);
-        }
-
-        function nextTestQuestion() {
-            if (testQuestionNum >= maxTestQuestions) {
-                clearInterval(timerInterval);
-                showTestResults();
-                return;
-            }
-            
-            testQuestionNum++;
-            
-            const problem = generateEquation();
-            currentAnswer = problem.answer;
-            
-            document.getElementById('testQuestionNum').textContent = testQuestionNum;
-            document.getElementById('testQuestion').textContent = problem.equation;
-            document.getElementById('testScore').textContent = testScore;
-            
-            const optionsContainer = document.getElementById('testOptions');
-            optionsContainer.innerHTML = '';
-            
-            problem.options.forEach(option => {
-                const btn = document.createElement('button');
-                btn.className = 'option-btn';
-                btn.textContent = `x = ${option}`;
-                btn.onclick = () => checkTestAnswer(option, btn);
-                optionsContainer.appendChild(btn);
             });
-            
-            document.getElementById('testFeedback').className = 'feedback';
-        }
-
-        function checkTestAnswer(selected, button) {
-            const buttons = document.querySelectorAll('#testOptions .option-btn');
-            buttons.forEach(btn => btn.disabled = true);
-            
-            const feedback = document.getElementById('testFeedback');
-            
-            if (selected === currentAnswer) {
-                button.classList.add('correct');
-                feedback.textContent = '✅ Correct!';
-                feedback.className = 'feedback correct show';
-                testScore++;
-                playSound('correct');
-                createConfetti();
-            } else {
-                button.classList.add('wrong');
-                buttons.forEach(btn => {
-                    if (btn.textContent === `x = ${currentAnswer}`) {
-                        btn.classList.add('correct');
-                    }
-                });
-                feedback.textContent = `❌ Wrong! Answer: x = ${currentAnswer}`;
-                feedback.className = 'feedback wrong show';
-                playSound('wrong');
-            }
-            
-            document.getElementById('testScore').textContent = testScore;
-            
-            setTimeout(() => {
-                nextTestQuestion();
-            }, 1500);
-        }
-
-        function showTestResults() {
-            clearInterval(timerInterval);
-            document.getElementById('testContent').style.display = 'none';
-            document.getElementById('testResults').style.display = 'block';
-            
-            document.getElementById('finalScore').textContent = testScore;
-            
-            let stars = '';
-            let message = '';
-            
-            if (testScore >= 9) {
-                stars = '⭐⭐⭐';
-                message = "🎉 Amazing! You're an Algebra Master! 🎉";
-                createConfetti();
-                setTimeout(() => createConfetti(), 500);
-                setTimeout(() => createConfetti(), 1000);
-            } else if (testScore >= 7) {
-                stars = '⭐⭐';
-                message = "Great job! You're doing awesome! Keep it up!";
-                createConfetti();
-            } else if (testScore >= 5) {
-                stars = '⭐';
-                message = "Good effort! Practice more to improve!";
-            } else {
-                stars = '💪';
-                message = "Keep practicing! You'll get better!";
-            }
-            
-            document.getElementById('resultStars').textContent = stars;
-            document.getElementById('resultMessage').textContent = message;
-        }
-
-        // Confetti Effect
-        function createConfetti() {
-            const container = document.getElementById('confettiContainer');
-            const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F'];
-            
-            for (let i = 0; i < 50; i++) {
-                setTimeout(() => {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.top = '-10px';
-                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-                    
-                    container.appendChild(confetti);
-                    
-                    setTimeout(() => confetti.remove(), 3000);
-                }, i * 30);
-            }
-        }
+        });
     </script>
 </body>
 </html>

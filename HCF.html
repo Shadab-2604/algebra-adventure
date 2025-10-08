@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HCF Adventure 🔢</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial', sans-serif;
+            background: linear-gradient(to top, #FFA07A, #FFE4E1);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #1E293B;
+            padding: 20px;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1100px;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .home-screen {
+            text-align: center;
+        }
+
+        .home-screen h1 {
+            font-size: 3em;
+            color: #F87171;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #64748B;
+            margin-bottom: 40px;
+        }
+
+        .mode-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .mode-btn {
+            background: #F87171;
+            color: white;
+            border: none;
+            padding: 30px 50px;
+            font-size: 1.5em;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(248, 113, 113, 0.4);
+            font-weight: bold;
+        }
+
+        .mode-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(248, 113, 113, 0.6);
+        }
+
+        .mode-btn.learn { background: #34D399; box-shadow: 0 8px 20px rgba(52, 211, 153, 0.4); }
+        .mode-btn.learn:hover { background: #24C389; }
+        
+        .mode-btn.practice { background: #FBBF24; color: #1E293B; box-shadow: 0 8px 20px rgba(251, 191, 36, 0.4); }
+        .mode-btn.practice:hover { background: #EBAF14; }
+        
+        .mode-btn.test { background: #F87171; box-shadow: 0 8px 20px rgba(248, 113, 113, 0.4); }
+        .mode-btn.test:hover { background: #E86161; }
+
+        .character {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 30px;
+        }
+
+        .robot {
+            font-size: 120px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #FFE4E1;
+        }
+
+        .back-btn {
+            background: #64748B;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #475569;
+            transform: scale(1.05);
+        }
+
+        .score-display {
+            background: #FBBF24;
+            padding: 12px 25px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #1E293B;
+        }
+
+        .learn-content {
+            text-align: center;
+        }
+
+        .lesson {
+            margin: 30px 0;
+            padding: 30px;
+            background: #FFF5F5;
+            border-radius: 20px;
+            border: 3px solid #F87171;
+        }
+
+        .lesson h2 {
+            color: #F87171;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .lesson-text {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #334155;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .example-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px auto;
+            max-width: 700px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .visual-items {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .number-box {
+            background: linear-gradient(135deg, #F87171, #EF4444);
+            padding: 15px 25px;
+            border-radius: 15px;
+            color: white;
+            font-size: 1.8em;
+            font-weight: bold;
+            margin: 5px;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .factors-container {
+            margin: 30px 0;
+        }
+
+        .factors-row {
+            margin: 20px 0;
+        }
+
+        .factors-row h4 {
+            color: #F87171;
+            margin-bottom: 10px;
+        }
+
+        .factors-grid {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .factor-item {
+            background: #FEE2E2;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: 2px solid #F87171;
+            transition: all 0.3s ease;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .factor-item.common {
+            background: #34D399;
+            color: white;
+            border-color: #34D399;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .speech-bubble {
+            background: #34D399;
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            margin: 20px auto;
+            max-width: 650px;
+            font-size: 1.2em;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .nav-btn {
+            background: #F87171;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: #EF4444;
+            transform: scale(1.05);
+        }
+
+        .nav-btn:disabled {
+            background: #94A3B8;
+            cursor: not-allowed;
+            transform: scale(1);
+        }
+
+        .question-card {
+            background: #FFF5F5;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 30px 0;
+            border: 3px solid #F87171;
+        }
+
+        .question-number {
+            color: #64748B;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #F87171;
+            margin: 30px 0;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 500px;
+            margin: 30px auto;
+        }
+
+        .option-btn {
+            background: white;
+            border: 3px solid #F87171;
+            padding: 25px;
+            font-size: 1.5em;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #1E293B;
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: #F87171;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .option-btn.correct {
+            background: #34D399 !important;
+            border-color: #34D399 !important;
+            color: white !important;
+            animation: pulseBtn 0.5s ease;
+        }
+
+        .option-btn.wrong {
+            background: #F87171 !important;
+            border-color: #F87171 !important;
+            color: white !important;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes pulseBtn {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .feedback {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feedback.show {
+            opacity: 1;
+        }
+
+        .feedback.correct {
+            background: #34D399;
+            color: white;
+        }
+
+        .feedback.wrong {
+            background: #F87171;
+            color: white;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #E2E8F0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #34D399, #10B981);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .test-info {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .stat-box {
+            background: #F87171;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .timer {
+            background: #EF4444;
+        }
+
+        .results {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .results h2 {
+            font-size: 2.5em;
+            color: #F87171;
+            margin-bottom: 20px;
+        }
+
+        .score-big {
+            font-size: 4em;
+            font-weight: bold;
+            color: #34D399;
+            margin: 30px 0;
+        }
+
+        .result-message {
+            font-size: 1.5em;
+            color: #334155;
+            margin: 20px 0;
+        }
+
+        .stars {
+            font-size: 4em;
+            margin: 20px 0;
+        }
+
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            animation: confettiFall 3s linear forwards;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .sound-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #FBBF24;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .sound-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .steps-box {
+            background: #FFF3CD;
+            border: 3px solid #FBBF24;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .step {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 20px; }
+            .home-screen h1 { font-size: 2em; }
+            .mode-btn { padding: 20px 30px; font-size: 1.2em; }
+            .question { font-size: 2em; }
+            .options { grid-template-columns: 1fr; }
+            .lesson-text { font-size: 1.1em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="confetti-container" id="confettiContainer"></div>
+    
+    <div class="container">
+        <button class="sound-toggle" id="soundToggle" onclick="toggleSound()">🔊</button>
+
+        <!-- Home Screen -->
+        <div class="screen active" id="homeScreen">
+            <div class="home-screen">
+                <div class="character">
+                    <div class="robot">🔢</div>
+                </div>
+                <h1>🔢 HCF Adventure! 🔢</h1>
+                <p class="subtitle">Master Highest Common Factor in a Fun Way!</p>
+                
+                <div class="mode-buttons">
+                    <button class="mode-btn learn" onclick="startMode('learn')">
+                        📚 LEARN<br><small>Understand HCF</small>
+                    </button>
+                    <button class="mode-btn practice" onclick="startMode('practice')">
+                        🎮 PRACTICE<br><small>Find HCFs</small>
+                    </button>
+                    <button class="mode-btn test" onclick="startMode('test')">
+                        🧪 TEST<br><small>Challenge Yourself!</small>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learn Mode -->
+        <div class="screen" id="learnScreen">
+            <div class="header">
+                <button class="back-btn" onclick="goHome()">⬅ Back</button>
+                <h2 style="color: #34D399; font-size: 2em;">📚 Learn Mode</h2>
+                <div style="width: 80px;"></div>
+            </div>
+            
+            <div class="learn-content" id="learnContent"></div>
+            
+            <div class="navigation-buttons">
+                <button class="nav-btn" id="prevBtn" onclick="previousLesson()">⬅ Previous</button>
+                <button class="nav-btn" id="nextBtn" onclick="nextLesson()">Next ➡</button>
+            </div>
+        </div>
+
+        <!-- Practice Mode -->
+        <div class="screen" id="practiceScreen">
+            <div class="header">
+                <button class="back-btn" onclick="goHome()">⬅ Back</button>
+                <div class="score-display">⭐ Score: <span id="practiceScore">0</span></div>
+            </div>
+
+            <div class="character">
+                <div class="robot" id="practiceRobot">🔢</div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="practiceProgress" style="width: 0%">0/20</div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number" id="questionNum">Question 1</div>
+                <div class="question" id="practiceQuestion">HCF of 12 and 18?</div>
+                <div class="options" id="practiceOptions"></div>
+                <div class="feedback" id="practiceFeedback"></div>
+            </div>
+        </div>
+
+        <!-- Test Mode -->
+        <div class="screen" id="testScreen">
+            <div class="header">
+                <button class="back-btn" onclick="goHome()">⬅ Back</button>
+                <div style="width: 80px;"></div>
+            </div>
+
+            <div id="testContent">
+                <div class="test-info">
+                    <div class="stat-box">📝 <span id="testQuestionNum">1</span>/10</div>
+                    <div class="stat-box timer">⏱ <span id="timer">60</span>s</div>
+                    <div class="stat-box">⭐ <span id="testScore">0</span></div>
+                </div>
+
+                <div class="question-card">
+                    <div class="question" id="testQuestion">HCF of 12 and 18?</div>
+                    <div class="options" id="testOptions"></div>
+                    <div class="feedback" id="testFeedback"></div>
+                </div>
+            </div>
+
+            <div id="testResults" style="display: none;">
+                <div class="results">
+                    <h2>🎉 Test Complete! 🎉</h2>
+                    <div class="stars" id="resultStars">⭐⭐⭐</div>
+                    <div class="score-big"><span id="finalScore">8</span>/10</div>
+                    <div class="result-message" id="resultMessage">You're an HCF Master!</div>
+                    <div class="navigation-buttons">
+                        <button class="nav-btn" onclick="startMode('test')">Try Again</button>
+                        <button class="nav-btn" onclick="goHome()">Home</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game State - Global Variables
+        var soundEnabled = true;
+        var currentLesson = 0;
+        var practiceScore = 0;
+        var practiceQuestionNum = 0;
+        var practiceQuestionsAnswered = 0;
+        var testScore = 0;
+        var testQuestionNum = 0;
+        var testTimer = 60;
+        var timerInterval = null;
+        var currentAnswer = 0;
+        var maxPracticeQuestions = 20;
+        var maxTestQuestions = 10;
+
+        // Lessons Data
+        var lessons = [
+            {
+                title: "What is HCF?",
+                html: `
+                    <div class="lesson">
+                        <h2>Welcome to HCF Adventure!</h2>
+                        <div class="speech-bubble">
+                            <strong>🔢 Your Guide:</strong> Hi! HCF stands for Highest Common Factor - it's the largest number that divides evenly into two or more numbers!
+                        </div>
+                        <div class="lesson-text">
+                            <p><strong>What is a Factor?</strong></p>
+                            <p>A factor is a number that divides evenly into another number with no remainder.</p>
+                            <p><strong>Example:</strong> Factors of 12 are: 1, 2, 3, 4, 6, 12</p>
+                            <p>Factors of 18 are: 1, 2, 3, 6, 9, 18</p>
+                        </div>
+                        <div class="example-box">
+                            <div class="visual-items">
+                                <div class="number-box">12</div>
+                                <span style="font-size: 2em;">→</span>
+                                <div style="font-size: 1.3em;">1, 2, 3, 4, 6, 12</div>
+                            </div>
+                            <div class="visual-items" style="margin-top: 20px;">
+                                <div class="number-box">18</div>
+                                <span style="font-size: 2em;">→</span>
+                                <div style="font-size: 1.3em;">1, 2, 3, 6, 9, 18</div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "Finding HCF - Listing Method",
+                html: `
+                    <div class="lesson">
+                        <h2>Method 1: List the Factors</h2>
+                        <div class="speech-bubble">
+                            <strong>🔢:</strong> Let's find HCF of 12 and 18 by listing all their factors and finding the highest common one!
+                        </div>
+                        <div class="steps-box">
+                            <div class="step"><strong>Step 1:</strong> List factors of 12:<br>
+                            1, 2, 3, 4, <strong style="color: #34D399; font-size: 1.2em;">6</strong>, 12</div>
+                            <div class="step"><strong>Step 2:</strong> List factors of 18:<br>
+                            1, 2, 3, <strong style="color: #34D399; font-size: 1.2em;">6</strong>, 9, 18</div>
+                            <div class="step"><strong>Step 3:</strong> Find the highest common factor:<br>
+                            Common factors are: 1, 2, 3, 6<br>
+                            The highest is <strong style="color: #34D399; font-size: 1.3em;">6</strong></div>
+                        </div>
+                        <div class="example-box">
+                            <h3 style="color: #34D399;">✅ The HCF of 12 and 18 is 6!</h3>
+                            <p style="margin-top: 15px;">6 is the largest number that divides both 12 and 18 evenly!</p>
+                            <p>12 ÷ 6 = 2 ✓</p>
+                            <p>18 ÷ 6 = 3 ✓</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "Visual Method with Grids",
+                html: `
+                    <div class="lesson">
+                        <h2>Visualizing Common Factors</h2>
+                        <div class="speech-bubble">
+                            <strong>🔢:</strong> Watch how we find the HCF of 20 and 30 visually!
+                        </div>
+                        <div class="factors-container">
+                            <div class="factors-row">
+                                <h4>Factors of 20:</h4>
+                                <div class="factors-grid">
+                                    <div class="factor-item common">1</div>
+                                    <div class="factor-item common">2</div>
+                                    <div class="factor-item">4</div>
+                                    <div class="factor-item common">5</div>
+                                    <div class="factor-item common">10</div>
+                                    <div class="factor-item">20</div>
+                                </div>
+                            </div>
+                            <div class="factors-row">
+                                <h4>Factors of 30:</h4>
+                                <div class="factors-grid">
+                                    <div class="factor-item common">1</div>
+                                    <div class="factor-item common">2</div>
+                                    <div class="factor-item">3</div>
+                                    <div class="factor-item common">5</div>
+                                    <div class="factor-item">6</div>
+                                    <div class="factor-item common">10</div>
+                                    <div class="factor-item">15</div>
+                                    <div class="factor-item">30</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="example-box">
+                            <h3 style="color: #34D399;">🔢 HCF of 20 and 30 = 10!</h3>
+                            <p style="margin-top: 15px;">The green boxes show common factors: 1, 2, 5, 10</p>
+                            <p>The highest common factor is 10!</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "Prime Factorization Method",
+                html: `
+                    <div class="lesson">
+                        <h2>Method 2: Prime Factorization</h2>
+                        <div class="speech-bubble">
+                            <strong>🔢:</strong> This is a faster way for bigger numbers! Let's use prime factors!
+                        </div>
+                        <div class="lesson-text">
+                            <p><strong>Example: Find HCF of 24 and 36</strong></p>
+                        </div>
+                        <div class="steps-box">
+                            <div class="step"><strong>Step 1:</strong> Break into prime factors<br>
+                            <strong>24 = 2 × 2 × 2 × 3</strong> (or 2³ × 3)<br>
+                            <strong>36 = 2 × 2 × 3 × 3</strong> (or 2² × 3²)</div>
+                            <div class="step"><strong>Step 2:</strong> Find common prime factors<br>
+                            Both have: 2 × 2 × 3<br>
+                            (Take the lowest power of each common prime)</div>
+                            <div class="step"><strong>Step 3:</strong> Multiply them together<br>
+                            HCF = <strong>2 × 2 × 3</strong> = <strong>4 × 3</strong> = <strong style="color: #34D399; font-size: 1.3em;">12</strong></div>
+                        </div>
+                        <div class="example-box">
+                            <h3 style="color: #34D399;">✅ HCF of 24 and 36 = 12!</h3>
+                            <p style="margin-top: 15px;">This method works great for larger numbers!</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "Division Method (Euclid's Algorithm)",
+                html: `
+                    <div class="lesson">
+                        <h2>Method 3: Division Method</h2>
+                        <div class="speech-bubble">
+                            <strong>🔢:</strong> This is the fastest method! Named after the Greek mathematician Euclid!
+                        </div>
+                        <div class="lesson-text">
+                            <p><strong>Example: Find HCF of 48 and 18</strong></p>
+                        </div>
+                        <div class="steps-box">
+                            <div class="step"><strong>Step 1:</strong> Divide larger by smaller<br>
+                            48 ÷ 18 = 2 remainder 12</div>
+                            <div class="step"><strong>Step 2:</strong> Divide the divisor by remainder<br>
+                            18 ÷ 12 = 1 remainder 6</div>
+                            <div class="step"><strong>Step 3:</strong> Continue until remainder is 0<br>
+                            12 ÷ 6 = 2 remainder 0</div>
+                            <div class="step"><strong>Step 4:</strong> The last divisor is the HCF<br>
+                            HCF = <strong style="color: #34D399; font-size: 1.3em;">6</strong></div>
+                        </div>
+                        <div class="example-box">
+                            <h3 style="color: #34D399;">✅ HCF of 48 and 18 = 6!</h3>
+                            <p style="margin-top: 15px;">This method is super fast for any numbers!</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "Real-World Applications",
+                html: `
+                    <div class="lesson">
+                        <h2>Why Do We Need HCF?</h2>
+                        <div class="speech-bubble">
+                            <strong>🔢:</strong> HCF is super useful in real life! Let me show you some examples!
+                        </div>
+                        <div class="lesson-text">
+                            <p><strong>🎨 Art Supplies Problem:</strong></p>
+                            <p>You have 12 red crayons and 18 blue crayons. What's the largest number of equal groups you can make with no crayons left over?</p>
+                            <p><strong>Solution:</strong> HCF of 12 and 18 = 6 groups! Each group gets 2 red and 3 blue crayons.</p>
+                            <br>
+                            <p><strong>🍪 Baking Problem:</strong></p>
+                            <p>You have 24 chocolate cookies and 36 vanilla cookies. What's the largest number of identical cookie plates you can make?</p>
+                            <p><strong>Solution:</strong> HCF of 24 and 36 = 12 plates! Each plate gets 2 chocolate and 3 vanilla cookies.</p>
+                            <br>
+                            <p><strong>📚 Book Arrangement:</strong></p>
+                            <p>You have 20 math books and 30 science books. What's the largest number of equal stacks you can make?</p>
+                            <p><strong>Solution:</strong> HCF of 20 and 30 = 10 stacks! Each stack gets 2 math and 3 science books.</p>
+                        </div>
+                        <div class="example-box">
+                            <h3 style="color: #34D399;">🎯 Now you see why HCF is so useful!</h3>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "Quick Tips & Tricks",
+                html: `
+                    <div class="lesson">
+                        <h2>🌟 HCF Tips & Tricks!</h2>
+                        <div class="speech-bubble">
+                            <strong>🔢:</strong> Here are some shortcuts to find HCF faster!
+                        </div>
+                        <div class="steps-box">
+                            <div class="step">
+                                <strong>Tip 1:</strong> If one number divides the other, the HCF is the smaller number!<br>
+                                Example: HCF(6, 12) = 6 (because 12 ÷ 6 = 2 evenly)
+                            </div>
+                            <div class="step">
+                                <strong>Tip 2:</strong> For prime numbers, the HCF is always 1!<br>
+                                Example: HCF(3, 5) = 1<br>
+                                Example: HCF(7, 11) = 1
+                            </div>
+                            <div class="step">
+                                <strong>Tip 3:</strong> HCF is always less than or equal to the smallest number<br>
+                                Example: HCF(12, 18) must be ≤ 12
+                            </div>
+                            <div class="step">
+                                <strong>Tip 4:</strong> For two numbers: HCF × LCM = Product of the numbers<br>
+                                Example: For 12 and 18:<br>
+                                HCF(6) × LCM(36) = 12 × 18 = 216 ✓
+                            </div>
+                            <div class="step">
+                                <strong>Tip 5:</strong> HCF of consecutive numbers is always 1<br>
+                                Example: HCF(5, 6) = 1
+                            </div>
+                        </div>
+                        <div class="example-box">
+                            <h3 style="color: #34D399;">💪 Practice these tricks to become an HCF expert!</h3>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        // Sound Effects
+        function playSound(type) {
+            if (!soundEnabled) return;
+            
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                if (type === 'correct') {
+                    oscillator.frequency.value = 523.25;
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.5);
+                } else if (type === 'wrong') {
+                    oscillator.frequency.value = 200;
+                    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.3);
+                }
+            } catch (e) {
+                console.log('Audio not supported');
+            }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            document.getElementById('soundToggle').textContent = soundEnabled ? '🔊' : '🔇';
+        }
+
+        // Navigation
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function goHome() {
+            showScreen('homeScreen');
+            if (timerInterval) clearInterval(timerInterval);
+        }
+
+        // Start Modes
+        function startMode(mode) {
+            if (mode === 'learn') {
+                currentLesson = 0;
+                showScreen('learnScreen');
+                displayLesson();
+            } else if (mode === 'practice') {
+                practiceScore = 0;
+                practiceQuestionNum = 0;
+                practiceQuestionsAnswered = 0;
+                showScreen('practiceScreen');
+                document.getElementById('practiceScore').textContent = '0';
+                document.getElementById('practiceProgress').style.width = '0%';
+                document.getElementById('practiceProgress').textContent = '0/20';
+                nextPracticeQuestion();
+            } else if (mode === 'test') {
+                testScore = 0;
+                testQuestionNum = 0;
+                testTimer = 60;
+                showScreen('testScreen');
+                document.getElementById('testContent').style.display = 'block';
+                document.getElementById('testResults').style.display = 'none';
+                document.getElementById('testScore').textContent = '0';
+                document.getElementById('timer').textContent = '60';
+                startTestTimer();
+                nextTestQuestion();
+            }
+        }
+
+        // LEARN MODE
+        function displayLesson() {
+            document.getElementById('learnContent').innerHTML = lessons[currentLesson].html;
+            
+            document.getElementById('prevBtn').disabled = currentLesson === 0;
+            document.getElementById('nextBtn').disabled = currentLesson === lessons.length - 1;
+        }
+
+        function nextLesson() {
+            if (currentLesson < lessons.length - 1) {
+                currentLesson++;
+                displayLesson();
+            }
+        }
+
+        function previousLesson() {
+            if (currentLesson > 0) {
+                currentLesson--;
+                displayLesson();
+            }
+        }
+
+        // HCF Calculation
+        function calculateHCF(a, b) {
+            // Using Euclidean Algorithm
+            while (b !== 0) {
+                let temp = b;
+                b = a % b;
+                a = temp;
+            }
+            return a;
+        }
+
+        // PRACTICE MODE
+        function generateHCFProblem() {
+            // Generate two numbers between 2 and 30
+            const num1 = Math.floor(Math.random() * 29) + 2;
+            const num2 = Math.floor(Math.random() * 29) + 2;
+            
+            const answer = calculateHCF(num1, num2);
+            const question = `HCF of ${num1} and ${num2}?`;
+            
+            const options = generateHCFOptions(answer, num1, num2);
+            
+            return { question, answer, options, num1, num2 };
+        }
+
+        function generateHCFOptions(correctAnswer, num1, num2) {
+            const options = [correctAnswer];
+            
+            // Add logical wrong answers
+            const smaller = Math.min(num1, num2);
+            const larger = Math.max(num1, num2);
+            const average = Math.round((num1 + num2) / 2);
+            
+            // Add some factors
+            const factors = [];
+            for (let i = 1; i <= smaller; i++) {
+                if (smaller % i === 0 && i !== correctAnswer && !options.includes(i)) {
+                    factors.push(i);
+                }
+            }
+            
+            // Add some random reasonable values
+            while (options.length < 4) {
+                const offset = Math.floor(Math.random() * 5) + 1;
+                const option = Math.max(1, correctAnswer + (Math.random() > 0.5 ? offset : -offset));
+                if (option > 0 && !options.includes(option) && option <= smaller) {
+                    options.push(option);
+                } else if (options.length < 4 && factors.length > 0) {
+                    options.push(factors.pop());
+                }
+            }
+            
+            return options.slice(0, 4).sort(() => Math.random() - 0.5);
+        }
+
+        function nextPracticeQuestion() {
+            if (practiceQuestionsAnswered >= maxPracticeQuestions) {
+                showPracticeComplete();
+                return;
+            }
+
+            practiceQuestionNum++;
+            
+            const problem = generateHCFProblem();
+            currentAnswer = problem.answer;
+            
+            document.getElementById('questionNum').textContent = `Question ${practiceQuestionNum}`;
+            document.getElementById('practiceQuestion').textContent = problem.question;
+            document.getElementById('practiceScore').textContent = practiceScore;
+            
+            const progress = (practiceQuestionsAnswered / maxPracticeQuestions) * 100;
+            document.getElementById('practiceProgress').style.width = progress + '%';
+            document.getElementById('practiceProgress').textContent = `${practiceQuestionsAnswered}/${maxPracticeQuestions}`;
+            
+            const optionsContainer = document.getElementById('practiceOptions');
+            optionsContainer.innerHTML = '';
+            
+            problem.options.forEach(option => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = option;
+                btn.onclick = () => checkPracticeAnswer(option, btn);
+                optionsContainer.appendChild(btn);
+            });
+            
+            document.getElementById('practiceFeedback').className = 'feedback';
+        }
+
+        function checkPracticeAnswer(selected, button) {
+            const buttons = document.querySelectorAll('#practiceOptions .option-btn');
+            buttons.forEach(btn => btn.disabled = true);
+            
+            const feedback = document.getElementById('practiceFeedback');
+            const robot = document.getElementById('practiceRobot');
+            
+            practiceQuestionsAnswered++;
+            
+            if (selected === currentAnswer) {
+                button.classList.add('correct');
+                feedback.textContent = '✅ Excellent! That\'s the correct HCF!';
+                feedback.className = 'feedback correct show';
+                practiceScore += 10;
+                robot.textContent = '😊';
+                playSound('correct');
+                createConfetti();
+                
+                setTimeout(() => {
+                    robot.textContent = '🔢';
+                    nextPracticeQuestion();
+                }, 2000);
+            } else {
+                button.classList.add('wrong');
+                buttons.forEach(btn => {
+                    if (parseInt(btn.textContent) === currentAnswer) {
+                        btn.classList.add('correct');
+                    }
+                });
+                feedback.textContent = `❌ Not quite! The correct HCF is ${currentAnswer}`;
+                feedback.className = 'feedback wrong show';
+                robot.textContent = '😢';
+                playSound('wrong');
+                
+                setTimeout(() => {
+                    robot.textContent = '🔢';
+                    nextPracticeQuestion();
+                }, 3000);
+            }
+            
+            document.getElementById('practiceScore').textContent = practiceScore;
+        }
+
+        function showPracticeComplete() {
+            const container = document.querySelector('#practiceScreen .question-card');
+            
+            let stars = '';
+            let message = '';
+            const percentage = (practiceScore / (maxPracticeQuestions * 10)) * 100;
+            
+            if (percentage >= 90) {
+                stars = '⭐⭐⭐';
+                message = "🎉 Outstanding! You're an HCF Master! 🎉";
+                createConfetti();
+                setTimeout(() => createConfetti(), 300);
+            } else if (percentage >= 70) {
+                stars = '⭐⭐';
+                message = "Excellent work! You really understand HCF!";
+                createConfetti();
+            } else if (percentage >= 50) {
+                stars = '⭐';
+                message = "Good job! Keep practicing to improve!";
+            } else {
+                stars = '💪';
+                message = "Keep practicing! You're getting better!";
+            }
+            
+            container.innerHTML = `
+                <div class="results">
+                    <h2>🎉 Practice Complete! 🎉</h2>
+                    <div class="stars">${stars}</div>
+                    <div class="score-big">${practiceScore}/${maxPracticeQuestions * 10}</div>
+                    <div class="result-message">${message}</div>
+                    <div class="navigation-buttons">
+                        <button class="nav-btn" onclick="startMode('practice')">Practice Again</button>
+                        <button class="nav-btn" onclick="goHome()">Home</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // TEST MODE
+        function startTestTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            
+            timerInterval = setInterval(() => {
+                testTimer--;
+                document.getElementById('timer').textContent = testTimer;
+                
+                if (testTimer <= 0) {
+                    clearInterval(timerInterval);
+                    showTestResults();
+                }
+            }, 1000);
+        }
+
+        function nextTestQuestion() {
+            if (testQuestionNum >= maxTestQuestions) {
+                clearInterval(timerInterval);
+                showTestResults();
+                return;
+            }
+            
+            testQuestionNum++;
+            
+            const problem = generateHCFProblem();
+            currentAnswer = problem.answer;
+            
+            document.getElementById('testQuestionNum').textContent = testQuestionNum;
+            document.getElementById('testQuestion').textContent = problem.question;
+            document.getElementById('testScore').textContent = testScore;
+            
+            const optionsContainer = document.getElementById('testOptions');
+            optionsContainer.innerHTML = '';
+            
+            problem.options.forEach(option => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = option;
+                btn.onclick = () => checkTestAnswer(option, btn);
+                optionsContainer.appendChild(btn);
+            });
+            
+            document.getElementById('testFeedback').className = 'feedback';
+        }
+
+        function checkTestAnswer(selected, button) {
+            const buttons = document.querySelectorAll('#testOptions .option-btn');
+            buttons.forEach(btn => btn.disabled = true);
+            
+            const feedback = document.getElementById('testFeedback');
+            
+            if (selected === currentAnswer) {
+                button.classList.add('correct');
+                feedback.textContent = '✅ Correct!';
+                feedback.className = 'feedback correct show';
+                testScore++;
+                playSound('correct');
+                createConfetti();
+            } else {
+                button.classList.add('wrong');
+                buttons.forEach(btn => {
+                    if (parseInt(btn.textContent) === currentAnswer) {
+                        btn.classList.add('correct');
+                    }
+                });
+                feedback.textContent = `❌ Wrong! Correct answer: ${currentAnswer}`;
+                feedback.className = 'feedback wrong show';
+                playSound('wrong');
+            }
+            
+            document.getElementById('testScore').textContent = testScore;
+            
+            setTimeout(() => {
+                nextTestQuestion();
+            }, 1500);
+        }
+
+        function showTestResults() {
+            clearInterval(timerInterval);
+            document.getElementById('testContent').style.display = 'none';
+            document.getElementById('testResults').style.display = 'block';
+            
+            document.getElementById('finalScore').textContent = testScore;
+            
+            let stars = '';
+            let message = '';
+            
+            if (testScore >= 9) {
+                stars = '⭐⭐⭐';
+                message = "🎉 Amazing! You're an HCF Champion! 🎉";
+                createConfetti();
+                setTimeout(() => createConfetti(), 400);
+                setTimeout(() => createConfetti(), 800);
+            } else if (testScore >= 7) {
+                stars = '⭐⭐';
+                message = "Great job! You've mastered HCF basics!";
+                createConfetti();
+            } else if (testScore >= 5) {
+                stars = '⭐';
+                message = "Good effort! Review the lessons and try again!";
+            } else {
+                stars = '💪';
+                message = "Keep practicing! Go back to Learn mode!";
+            }
+            
+            document.getElementById('resultStars').textContent = stars;
+            document.getElementById('resultMessage').textContent = message;
+        }
+
+        // Confetti Effect
+        function createConfetti() {
+            const container = document.getElementById('confettiContainer');
+            const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#34D399', '#F87171'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    
+                    container.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            console.log('HCF Adventure loaded successfully!');
+        };
+    </script>
+</body>
+</html>
