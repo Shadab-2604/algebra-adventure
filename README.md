@@ -1,6 +1,4 @@
-Here’s a polished and updated **README.md** for your **maths-adventure** repo, with more structure, clarity, and project info:
 
-```markdown
 # 🧮 Maths Adventure
 
 **Maths Adventure** is a fun, educational web app that guides students through interactive modules in Algebra, LCM, HCF, and more.  
@@ -48,11 +46,11 @@ maths-adventure/
    cd maths-adventure
 ````
 
-2. Open `index.html` in your browser (double-click), or use a local server:
+ 2. Open `index.html` in your browser (double-click), or use a local server:
 
    ```bash
    python -m http.server 8000
-   ```
+   ````
 
    then visit `http://localhost:8000`
 
