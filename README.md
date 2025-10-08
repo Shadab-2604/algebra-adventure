@@ -1,113 +1,128 @@
-# 🧮 Algebra Adventure
+Here’s a polished and updated **README.md** for your **maths-adventure** repo, with more structure, clarity, and project info:
 
-**Algebra Adventure** is a single-file, kid-friendly web game built with plain **HTML**, **CSS**, and **JavaScript**.  
-Designed for students (grades 4–7), it teaches basic algebra through three fun sections: **Learn**, **Practice**, and **Test**.
+```markdown
+# 🧮 Maths Adventure
 
----
-
-## 🚀 Live Preview
-Open `index.html` in any modern browser (Chrome, Edge, Firefox, Safari) to play locally.
- ```bash
-   https://shadab-2604.github.io/algebra-adventure/
-   ```
+**Maths Adventure** is a fun, educational web app that guides students through interactive modules in Algebra, LCM, HCF, and more.  
+It aims to make math learning engaging and visual with dynamic lessons, quizzes, and animations.
 
 ---
 
-## ✨ Features
-- 📚 **Learn** — Interactive lessons covering variables, addition, subtraction, multiplication and division with visual aids and examples.
-- 🎮 **Practice** — Randomized equations, multiple-choice answers, score tracking, progress bar and sound/visual feedback (confetti for wins).
-- 🧪 **Test** — Timed quiz mode (10 questions) with results, star ratings and replay option.
-- 🔊 Sound toggle, cute robot character, and mobile-responsive layout.
-- Pure front-end — no build tools, no dependencies.
+## 🚀 Live Preview  
+You can view a live version here:  
+[shadab-2604.github.io/maths-adventure](https://shadab-2604.github.io/maths-adventure/) :contentReference[oaicite:0]{index=0}
 
 ---
 
-## 🗂️ Project Structure
+## ✨ Features  
+- Multiple math topics: Algebra, LCM, HCF, etc. :contentReference[oaicite:1]{index=1}  
+- Interactive lessons with visuals, examples, and mystery boxes  
+- Practice mode: randomized equations with multiple-choice answers  
+- Test mode: timed quizzes with scoring, feedback, and stars  
+- Confetti animations and visual feedback for correct answers  
+- Sound feedback (toggleable)  
+- Pure front-end tech: HTML, CSS, and JavaScript only (no frameworks)  
+- Responsive design: works on desktop, tablets, and mobile  
 
+---
+
+## 🗂 Project Structure (example)  
 ```
-algebra-adventure/
-├─ index.html        # Single-file app (HTML + CSS + JS)
-└─ README.md         # This file
-```
 
-> The entire app is contained in `index.html` for easy sharing and deployment.
+maths-adventure/
+├── index.html
+├── algebra.html
+├── LCM.html
+├── HCF.html
+├── README.md
+└── (other assets, CSS, JS as needed)
 
+````
 
 ---
 
-## 🛠️ How to Run Locally
-
-1. Clone the repo:
+## 🛠 How to Run Locally  
+1. Clone the repo:  
    ```bash
-   git clone https://github.com/Shadab-2604/algebra-adventure.git
-   cd algebra-adventure
+   git clone https://github.com/Shadab-2604/maths-adventure.git
+   cd maths-adventure
+````
+
+2. Open `index.html` in your browser (double-click), or use a local server:
+
+   ```bash
+   python -m http.server 8000
    ```
 
-2. Open `index.html` in a browser:
-   - Double-click the file, or
-   - Serve with a static server (optional):
-     ```bash
-     # using Python 3
-     python -m http.server 8000
-     # then open http://localhost:8000
-     ```
+   then visit `http://localhost:8000`
 
 ---
 
-## 🧩 How It Works (Brief)
+## 🧩 How It Works (Overview)
 
-- Lessons are defined in a `lessons` array inside the file — each lesson contains `title` and `html`.
-- Practice and Test modes generate equations randomly (add/subtract/multiply/divide) and produce 4 answer options.
-- Scoring, timers and UI state are managed by vanilla JS functions inside `index.html`.
+* Each math topic (Algebra, LCM, HCF) has its own HTML page (e.g. `algebra.html`)
+* The home page links to these topics
+* Inside each topic page:
 
----
-
-## ✍️ Customize
-
-- Add or edit lessons: modify the `lessons` array.
-- Change difficulty: tweak random ranges in `generateEquation()` (inside the script).
-- Adjust the number of practice/test questions by editing `maxPracticeQuestions` / `maxTestQuestions`.
-- Replace emoji visuals with images or SVGs if desired.
+  * **Learn** mode displays sequential lessons (stored in a JS array)
+  * **Practice** mode generates random equations and options
+  * **Test** mode runs timed quizzes
+  * Feedback, scoring, animations, and UI state are managed via vanilla JS
 
 ---
 
-## ✅ Browser Compatibility
+## 🛠 Customization & Extension
 
-Tested on modern browsers. Works offline as it is a static file.
+You can easily extend or adapt this project:
+
+* Add new lessons: increase the `lessons` array
+* Tweak difficulty: change ranges in `generateEquation()`
+* Adjust number of practice / test questions
+* Replace emoji visuals with images or SVGs
+* Add new topics: duplicate the structure (learn, practice, test)
+* Store performance data in **localStorage** for progress tracking
+* Add accessibility improvements: keyboard navigation, ARIA labels
 
 ---
 
-## ♿ Accessibility & Improvements (Ideas)
+## ✅ Browser Support
 
-- Add keyboard navigation for options (Left/Right/Enter).
-- Provide ARIA labels for screen readers.
-- Add localized text (translations) for other languages.
-- Add levels and user profiles / persistent scores (localStorage).
+Works in modern browsers (Chrome, Firefox, Edge, Safari)
+Fully responsive for mobile, tablet, and desktop.
+
+---
+
+## ♿ Accessibility & Future Enhancements
+
+* Keyboard support (arrow keys, Enter)
+* ARIA labels and screen reader compatibility
+* Dark mode or theme toggle
+* User profiles and progress persistence
+* More topics and deeper levels
+* Leaderboards, challenges, or multiplayer modes
 
 ---
 
 ## 🧑‍💻 Contributing
 
-Contributions are welcome!
+Contributions are very welcome! Here’s how you can help:
 
-1. Fork the repo
-2. Create a feature branch: `git checkout -b feature/your-feature`
-3. Commit your changes and open a Pull Request
-
-I'll review and merge improvements, bug fixes, and new lessons.
+1. Fork the repository
+2. Create a branch: `git checkout -b feature/your-feature`
+3. Make your changes & commit: `git commit -m "Add feature XYZ"`
+4. Push branch & open a Pull Request
+   I’ll review and merge improvements, bug fixes, or new topics.
 
 ---
 
 ## 📜 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License**. Feel free to use, modify, and distribute it.
 
 ---
 
 ## ❤️ Credits
 
-Made with ❤️ for young learners. Inspired by playful teaching methods and interactive learning games.
+Made with ❤️ by Shadab.
+Intended for young learners and those who want interactive, playful math learning.
 
----
-
-*Algebra Adventure - Making algebra fun and accessible for everyone!*
