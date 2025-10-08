@@ -7,6 +7,9 @@ Designed for students (grades 4–7), it teaches basic algebra through three fun
 
 ## 🚀 Live Preview
 Open `index.html` in any modern browser (Chrome, Edge, Firefox, Safari) to play locally.
+ ```bash
+   https://shadab-2604.github.io/algebra-adventure/
+   ```
 
 ---
 
@@ -28,9 +31,7 @@ algebra-adventure/
 ```
 
 > The entire app is contained in `index.html` for easy sharing and deployment.
->  ```bash
-   https://shadab-2604.github.io/algebra-adventure/
-   ```
+
 
 ---
 
