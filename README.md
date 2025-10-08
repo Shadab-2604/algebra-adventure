@@ -28,6 +28,9 @@ algebra-adventure/
 ```
 
 > The entire app is contained in `index.html` for easy sharing and deployment.
+>  ```bash
+   https://shadab-2604.github.io/algebra-adventure/
+   ```
 
 ---
 
